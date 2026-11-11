@@ -1,0 +1,11 @@
+{
+  "name": "narasi-prd",
+  "private": true,
+  "description": "Generator dokumen PRD NARASI (.docx)",
+  "scripts": {
+    "build": "node build_prd.js ../../../NARASI_PRD_Hackathon_2026_v2.docx"
+  },
+  "dependencies": {
+    "docx": "^9.5.1"
+  }
+}

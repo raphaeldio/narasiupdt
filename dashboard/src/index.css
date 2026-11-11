@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tema "ruang kendali": permukaan biru-hitam, satu aksen sian, warna status khusus untuk label. */
+:root {
+  --radius: 0.75rem;
+  --background: #070b12;
+  --foreground: #e8edf5;
+  --card: #0e141f;
+  --card-foreground: #e8edf5;
+  --popover: #121a27;
+  --popover-foreground: #e8edf5;
+  --primary: #38c6f4;
+  --primary-foreground: #04202c;
+  --secondary: #172030;
+  --secondary-foreground: #d6deea;
+  --muted: #141c2a;
+  --muted-foreground: #8b96a8;
+  --accent: #1a2536;
+  --accent-foreground: #e8edf5;
+  --destructive: #f2555a;
+  --border: #1f2a3b;
+  --input: #24304a;
+  --ring: #38c6f4;
+
+  /* Status (label hasil): tidak dipakai untuk hal lain. */
+  --st-hoax: #f2555a;
+  --st-caution: #f5c542;
+  --st-supported: #3dd68c;
+  --st-unverified: #7f8aa0;
+  --st-satire: #8da2fb;
+  --st-neutral: #4a566b;
+  --st-serious: #ec835a;
+  --grid: #1a2433;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hoax: var(--st-hoax);
+  --color-caution: var(--st-caution);
+  --color-supported: var(--st-supported);
+  --color-unverified: var(--st-unverified);
+  --color-satire: var(--st-satire);
+  --color-neutral: var(--st-neutral);
+  --color-serious: var(--st-serious);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* Garis aliran pada diagram: putus-putus yang berjalan pelan, berhenti bila pengguna meminta gerak dikurangi. */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.flow-edge {
+  stroke-dasharray: 3 9;
+  animation: flow-dash 2.4s linear infinite;
+}
+@keyframes node-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+.node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 0.9s ease-out forwards;
+}
+@keyframes live-dot {
+  50% {
+    opacity: 0.35;
+  }
+}
+.live-dot {
+  animation: live-dot 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-edge,
+  .live-dot {
+    animation: none;
+  }
+}

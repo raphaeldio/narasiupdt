@@ -1,0 +1,11 @@
+# File & direktori yang ditentukan
+node_modules/
+.npm-cache/
+out/
+.tmp/
+.vo-raw/
+video/
+pilih
+rubrik.png
+.claude/
+docs/

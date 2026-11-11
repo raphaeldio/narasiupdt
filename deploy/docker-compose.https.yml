@@ -1,0 +1,26 @@
+# Tambahan HTTPS otomatis (Let's Encrypt) lewat Caddy, untuk server yang bisa diakses dari internet.
+# Jalankan dari folder deploy/:
+#   docker compose -f docker-compose.yml -f docker-compose.https.yml up -d --build
+# DOMAIN di .env harus mengarah ke IP server. Tanpa beli domain: pakai <ip-server>.sslip.io
+# (mis. 203.0.113.7.sslip.io). Port 80 dan 443 harus terbuka di firewall.
+services:
+  web:
+    # Port 80/443 dipegang Caddy; dashboard cukup diakses dari jaringan internal compose.
+    ports: !reset []
+
+  caddy:
+    image: caddy:2-alpine
+    environment:
+      DOMAIN: ${DOMAIN:?Isi DOMAIN di deploy/.env}
+    command: ["caddy", "reverse-proxy", "--from", "${DOMAIN}", "--to", "web:80"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  caddy-data:

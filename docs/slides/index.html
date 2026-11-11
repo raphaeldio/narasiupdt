@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NARASI · Presentasi Final</title>
+<link rel="icon" type="image/png" href="../logo/narasi-ikon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050b14; --bg2:#0a1626; --panel:rgba(14,30,50,.62); --panel-solid:#0e1e32; --line:rgba(80,180,230,.22); --line-strong:rgba(56,198,244,.55);
+  --text:#e8f1f8; --muted:#8fa6ba; --cyan:#38c6f4; --cyan2:#7fe0ff; --orange:#ff9f43;
+  --hoax:#ff5a5f; --caution:#f5a524; --supported:#3dd68c; --unverified:#a0a4ae; --satire:#b18cff; --neutral:#6b7686; --gold:#f5c46b;
+  --display:"Space Grotesk","Segoe UI",system-ui,sans-serif; --body:"Inter","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--body);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+a{color:inherit}
+#bgfx{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 40%,rgba(2,6,12,.85) 100%)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;z-index:2}
+
+/* ---------- chrome ---------- */
+.topbar{position:absolute;left:0;right:0;top:0;height:84px;display:flex;align-items:center;gap:28px;padding:0 64px;z-index:20}
+.brand{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:700;letter-spacing:.14em;font-size:22px}
+.brand img{width:40px;height:40px;border-radius:10px;box-shadow:0 0 0 1px var(--line-strong),0 0 18px rgba(56,198,244,.35)}
+.parts{display:flex;gap:6px;margin-left:auto}
+.parts button{background:none;border:1px solid transparent;border-radius:999px;padding:9px 18px;font-size:17px;font-weight:600;color:var(--muted);cursor:pointer;transition:.25s}
+.parts button:hover{color:var(--text);border-color:var(--line)}
+.parts button.on{color:#04121d;background:var(--cyan);box-shadow:0 0 22px rgba(56,198,244,.45)}
+.parts button .n{font-family:var(--mono);opacity:.6;margin-right:6px}
+.timer{background:rgba(10,22,38,.6);font-family:var(--mono);font-size:18px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;min-width:112px;text-align:center}
+.timer.run{color:var(--text)} .timer.warn{color:var(--orange);border-color:var(--orange)} .timer.over{color:var(--hoax);border-color:var(--hoax)}
+.bottombar{position:absolute;left:0;right:0;bottom:0;height:70px;display:flex;align-items:center;gap:20px;padding:0 64px;z-index:20;color:var(--muted);font-size:16px}
+.progress{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.06)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--orange));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.navbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(10,22,38,.6);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.navbtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.counter{font-family:var(--mono);color:var(--text)}
+.hint{margin-left:auto;display:flex;gap:18px}
+.hint kbd{font-family:var(--mono);font-size:13px;border:1px solid var(--line);border-radius:6px;padding:2px 7px;margin-right:6px;color:var(--text)}
+.src{position:absolute;right:64px;bottom:84px;font-size:15px;color:var(--muted);max-width:1100px;text-align:right;z-index:5}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;padding:130px 120px 120px;opacity:0;visibility:hidden;transform:translateY(24px) scale(.985);transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s .55s}
+.slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.slide.skip{display:none}
+.eyebrow{font-family:var(--mono);font-size:20px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:"";width:34px;height:2px;background:currentColor}
+h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.01em}
+h2{font-size:76px;line-height:1.04;font-weight:700;margin:18px 0 0;max-width:1500px}
+h2 em{font-style:normal;color:var(--cyan)}
+h2 .warm{color:var(--orange)}
+.lead{font-size:30px;line-height:1.45;color:var(--muted);max-width:1300px;margin-top:22px}
+.lead b{color:var(--text)}
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.f{opacity:0;transform:translateY(18px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+.f.in{opacity:1;transform:none}
+.mono{font-family:var(--mono)}
+
+/* hook */
+.hook{display:grid;grid-template-columns:560px 1fr;gap:90px;align-items:center;height:100%}
+.notes{display:none}
+.phone{position:relative;width:452px;height:804px;border-radius:44px;overflow:hidden;background:#000;box-shadow:0 0 0 10px #0b1522,0 0 0 11px var(--line-strong),0 30px 90px rgba(0,0,0,.6),0 0 80px rgba(56,198,244,.18)}
+.phone video{position:absolute;width:1280px;height:900px;left:-402px;top:-64px;max-width:none}
+.phone .fallback{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:40px;color:var(--muted);font-size:24px;background:linear-gradient(160deg,#1a0d10,#0b1522)}
+.phone.nofile .fallback{display:grid}
+.quote{font-family:var(--display);font-size:92px;line-height:1.02;font-weight:700}
+.quote small{display:block;font-size:26px;font-family:var(--mono);color:var(--muted);letter-spacing:.18em;margin-bottom:22px;text-transform:uppercase}
+.stamp{display:inline-block;margin-top:34px;font-family:var(--display);font-weight:700;font-size:84px;letter-spacing:.12em;color:var(--hoax);border:7px solid var(--hoax);border-radius:14px;padding:4px 30px;transform:rotate(-6deg) scale(2.2);opacity:0;transition:transform .35s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.stamp.in{transform:rotate(-6deg) scale(1);opacity:1;text-shadow:0 0 30px rgba(255,90,95,.5);box-shadow:0 0 40px rgba(255,90,95,.3),inset 0 0 30px rgba(255,90,95,.15)}
+.fact{font-size:30px;color:var(--muted);margin-top:36px;line-height:1.5}
+.fact b{color:var(--text)}
+.daycount{margin-top:40px;display:flex;align-items:baseline;gap:22px}
+.daycount .big{font-family:var(--display);font-size:150px;font-weight:700;line-height:.9;color:var(--orange);text-shadow:0 0 40px rgba(255,159,67,.35)}
+.daycount .lbl{font-size:30px;line-height:1.3;color:var(--muted)}
+.daycount .lbl b{color:var(--text);display:block;font-size:36px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:70px}
+.stat{padding:44px 40px;position:relative;overflow:hidden}
+.stat .num{font-family:var(--display);font-size:118px;font-weight:700;line-height:1;color:var(--cyan2)}
+.stat .num .u{font-size:50px;margin-left:10px;color:var(--cyan)}
+.stat .cap{font-size:27px;color:var(--muted);margin-top:16px;line-height:1.4}
+.stat .cap b{color:var(--text)}
+.stat.hot .num{color:var(--orange)}
+.stat::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(56,198,244,.18),transparent 70%)}
+.share{margin-top:40px;padding:28px 36px;display:flex;align-items:center;gap:36px}
+.share .bar{flex:1;height:22px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+.share .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--hoax));border-radius:999px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.share .t{font-size:27px;color:var(--muted)} .share .t b{color:var(--text)}
+.kicker{font-family:var(--display);font-size:46px;font-weight:700;margin-top:40px}
+.kicker span{color:var(--orange)}
+
+/* team */
+.team{display:grid;grid-template-columns:520px 1fr;gap:90px;align-items:center;margin-top:60px}
+.person{padding:46px;text-align:center}
+.avatar{width:260px;height:260px;margin:0 auto 30px;border-radius:50%;padding:6px;overflow:hidden;background:conic-gradient(from 210deg,var(--cyan),#2a7fd4,var(--orange),var(--cyan));box-shadow:0 0 60px rgba(56,198,244,.35)}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;background:var(--bg2)}
+.person h3{font-size:44px}
+.person p{font-size:26px;color:var(--cyan);margin:12px 0 0;font-family:var(--mono)}
+.pillars{display:grid;gap:24px}
+.pillar{display:flex;align-items:center;gap:28px;padding:30px 36px}
+.pillar svg{width:62px;height:62px;flex:none;color:var(--cyan)}
+.pillar h4{margin:0;font-family:var(--display);font-size:36px}
+.pillar p{margin:6px 0 0;font-size:25px;color:var(--muted)}
+
+/* timeline */
+.timeline{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:90px}
+.timeline::before{content:"";position:absolute;left:0;right:0;top:34px;height:2px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+.tl .dot{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:var(--bg2);border:2px solid var(--hoax);box-shadow:0 0 30px rgba(255,90,95,.4);position:relative;z-index:1}
+.tl .dot i{width:18px;height:18px;border-radius:50%;background:var(--hoax);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,90,95,.7)}100%{box-shadow:0 0 0 22px rgba(255,90,95,0)}}
+.tl .when{font-family:var(--mono);font-size:24px;color:var(--orange);margin-top:30px;letter-spacing:.08em}
+.tl .card{margin-top:18px;padding:30px 32px;font-size:27px;line-height:1.45}
+.tl .card b{display:block;font-family:var(--display);font-size:33px;margin-bottom:10px}
+.tl .card .s{display:block;font-size:19px;color:var(--muted);margin-top:14px;font-family:var(--mono)}
+.pattern{margin-top:70px;display:flex;align-items:center;justify-content:center;gap:28px;font-family:var(--display);font-size:40px;font-weight:600}
+.pattern span{padding:14px 30px;border-radius:999px;border:1px solid var(--line)}
+.pattern span.r{border-color:var(--hoax);color:var(--hoax)}
+.pattern svg{width:34px;height:34px;color:var(--muted)}
+
+/* gaps */
+.gaps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:64px}
+.gap{padding:40px 38px}
+.gap .ic{width:78px;height:78px;border-radius:20px;display:grid;place-items:center;background:rgba(255,90,95,.12);color:var(--hoax);margin-bottom:26px}
+.gap .ic svg{width:42px;height:42px}
+.gap h4{font-family:var(--display);font-size:38px;margin:0}
+.gap p{font-size:26px;color:var(--muted);line-height:1.45;margin:14px 0 0}
+.domains{margin-top:44px;display:flex;align-items:center;gap:22px;padding:26px 36px}
+.domains .d{display:flex;align-items:center;gap:12px;font-size:28px;color:var(--muted);padding:10px 22px;border-radius:999px;border:1px solid var(--line)}
+.domains .d.k{color:#04121d;background:var(--orange);border-color:var(--orange);font-weight:700;box-shadow:0 0 30px rgba(255,159,67,.45)}
+.domains .t{margin-left:auto;font-size:26px;color:var(--muted);max-width:620px;line-height:1.4}
+.domains .t b{color:var(--text)}
+
+/* solusi */
+.reveal{display:grid;grid-template-columns:780px 1fr;gap:70px;align-items:center;height:100%}
+.logo-hero{width:100%;border-radius:26px;box-shadow:0 0 0 1px var(--line-strong),0 30px 90px rgba(0,0,0,.5),0 0 90px rgba(56,198,244,.25);animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+.duo{display:grid;gap:26px}
+.duo .glass{padding:34px 38px}
+.duo h4{font-family:var(--display);font-size:40px;margin:0;display:flex;align-items:center;gap:16px}
+.duo h4 svg{width:44px;height:44px;color:var(--cyan)}
+.duo p{font-size:26px;color:var(--muted);line-height:1.45;margin:12px 0 0}
+.duo p b{color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.chip{font-size:21px;padding:8px 18px;border-radius:999px;border:1px solid var(--line);color:var(--text);background:rgba(56,198,244,.06)}
+.three{display:flex;gap:14px;margin-top:20px}
+.three span{display:flex;align-items:center;gap:10px;font-size:23px;padding:10px 18px;border-radius:14px;background:rgba(56,198,244,.1);color:var(--cyan2)}
+.three svg{width:26px;height:26px}
+
+/* labels */
+.labels{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:56px}
+.lab{cursor:pointer;padding:32px 34px;border-radius:22px;border:1px solid var(--line);background:var(--panel);transition:.3s;position:relative;overflow:hidden;text-align:left}
+.lab:hover{transform:translateY(-4px)}
+.lab .badge{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:27px;padding:10px 20px;border-radius:12px;color:#0b0d12;background:var(--c)}
+.lab .badge i{width:12px;height:12px;border-radius:50%;background:#0b0d12;opacity:.55}
+.lab p{font-size:24px;color:var(--muted);line-height:1.45;margin:18px 0 0}
+.lab .ex{max-height:0;overflow:hidden;transition:max-height .45s ease,margin .45s;font-size:21px;color:var(--text);font-family:var(--mono);line-height:1.5;border-left:3px solid var(--c);padding-left:16px}
+.lab.open{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 40px color-mix(in srgb,var(--c) 30%,transparent)}
+.lab.open .ex{max-height:200px;margin-top:18px}
+.tapnote{margin-top:26px;font-size:22px;color:var(--muted);display:flex;align-items:center;gap:12px}
+.tapnote svg{width:26px;height:26px;color:var(--cyan)}
+
+/* demo */
+.demo{display:grid;grid-template-columns:1fr 760px;gap:60px;margin-top:50px}
+.launch{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.lbtn{display:flex;flex-direction:column;gap:12px;text-decoration:none;padding:28px 30px;border-radius:20px;border:1px solid var(--line);background:var(--panel);transition:.25s;cursor:pointer;text-align:left}
+.lbtn:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 0 30px rgba(56,198,244,.2)}
+.lbtn .k{font-family:var(--mono);font-size:18px;color:var(--cyan);letter-spacing:.12em}
+.lbtn .t{font-family:var(--display);font-size:32px;font-weight:600}
+.lbtn .e{font-size:21px;color:var(--muted)}
+.lbtn.backup{grid-column:1/-1;flex-direction:row;align-items:center;gap:20px;border-style:dashed}
+.lbtn.backup svg{width:48px;height:48px;color:var(--orange)}
+.steps{padding:30px 34px}
+.steps h4{margin:0 0 14px;font-family:var(--mono);font-size:18px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;display:flex;justify-content:space-between}
+.step{display:flex;gap:18px;align-items:flex-start;padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;font-size:25px;line-height:1.4;transition:.2s;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left}
+.step:last-child{border-bottom:0}
+.step .box{flex:none;width:34px;height:34px;border-radius:10px;border:2px solid var(--line-strong);display:grid;place-items:center;margin-top:2px;transition:.2s}
+.step .box svg{width:22px;height:22px;opacity:0;color:#04121d}
+.step.done{color:var(--muted)}
+.step.done .box{background:var(--supported);border-color:var(--supported)}
+.step.done .box svg{opacity:1}
+.step b{color:var(--cyan2)}
+.live{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:20px;color:var(--hoax);margin-left:20px;vertical-align:middle;letter-spacing:.12em}
+.live i{width:12px;height:12px;border-radius:50%;background:var(--hoax);animation:ping 1.4s infinite}
+
+/* compare */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;margin-top:56px;font-size:27px}
+.cmp th,.cmp td{padding:22px 28px;text-align:left;border-bottom:1px solid rgba(255,255,255,.07)}
+.cmp th{font-family:var(--mono);font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.cmp td:first-child{color:var(--muted);font-size:24px;width:240px}
+.cmp td{color:#b8c6d3}
+.cmp .n{color:var(--text);font-weight:700;background:rgba(56,198,244,.09);position:relative}
+.cmp th.n{color:var(--cyan);background:rgba(56,198,244,.14);border-radius:18px 18px 0 0}
+.cmp tr:last-child .n{border-radius:0 0 18px 18px}
+.cmp .n::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.cmp tbody tr{transition:opacity .45s,transform .45s}
+.cmp .x{color:#59697a}
+
+/* five */
+.five{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;margin-top:70px}
+.five .glass{padding:34px 28px;position:relative;min-height:420px}
+.five .no{font-family:var(--mono);font-size:22px;color:var(--cyan)}
+.five svg{width:56px;height:56px;color:var(--cyan2);margin:26px 0 22px}
+.five h4{font-family:var(--display);font-size:33px;margin:0;line-height:1.15}
+.five p{font-size:23px;color:var(--muted);line-height:1.45;margin:14px 0 0}
+
+/* arch */
+.arch{display:grid;grid-template-columns:1fr 520px;gap:40px;margin-top:34px;align-items:start}
+.arch svg.flow{width:100%;height:auto;overflow:visible}
+.node rect{fill:rgba(14,30,50,.9);stroke:var(--line-strong);stroke-width:2;transition:.25s}
+.node text{fill:var(--text);font-family:var(--display);font-size:25px;font-weight:600}
+.node text.s{fill:var(--muted);font-family:var(--body);font-size:18px;font-weight:500}
+.node{cursor:pointer}
+.node:hover rect,.node.sel rect{stroke:var(--cyan);fill:rgba(20,52,80,.95);filter:drop-shadow(0 0 12px rgba(56,198,244,.55))}
+.node.warm rect{stroke:rgba(255,159,67,.6)} .node.warm.sel rect,.node.warm:hover rect{stroke:var(--orange);filter:drop-shadow(0 0 12px rgba(255,159,67,.55))}
+.wire{fill:none;stroke:rgba(56,198,244,.35);stroke-width:2.5;stroke-dasharray:6 8;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.pulse{fill:var(--cyan2);filter:drop-shadow(0 0 6px var(--cyan))}
+.pulse.w{fill:var(--orange);filter:drop-shadow(0 0 6px var(--orange))}
+.detail{padding:34px 36px;min-height:640px}
+.detail .k{font-family:var(--mono);font-size:18px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase}
+.detail h4{font-family:var(--display);font-size:42px;margin:12px 0 18px}
+.detail ul{margin:0;padding:0;list-style:none}
+.detail li{font-size:24px;line-height:1.4;color:#c4d2de;padding:12px 0 12px 30px;position:relative;border-bottom:1px solid rgba(255,255,255,.06)}
+.detail li::before{content:"";position:absolute;left:4px;top:24px;width:10px;height:10px;border-radius:3px;background:var(--cyan);transform:rotate(45deg)}
+.detail .tag{display:inline-block;font-family:var(--mono);font-size:18px;color:var(--cyan2);background:rgba(56,198,244,.1);padding:4px 10px;border-radius:8px;margin:4px 6px 0 0}
+
+/* scale */
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:60px}
+.scale .glass{padding:36px 34px}
+.scale .num{font-family:var(--display);font-size:96px;font-weight:700;line-height:1;color:var(--cyan2)}
+.scale .num small{font-size:40px;color:var(--cyan)}
+.scale .good .num{color:var(--supported)}
+.scale p{font-size:24px;color:var(--muted);margin:14px 0 0;line-height:1.4}
+.bars{margin-top:36px;padding:32px 40px}
+.brow{display:grid;grid-template-columns:330px 1fr 150px;align-items:center;gap:26px;margin:14px 0;font-size:25px}
+.brow .bar{height:30px;border-radius:10px;background:rgba(255,255,255,.05);overflow:hidden}
+.brow .bar i{display:block;height:100%;width:0;border-radius:10px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.brow .v{font-family:var(--mono);text-align:right}
+.brow.a i{background:linear-gradient(90deg,#5a6b7d,#8a99a8)} .brow.b i{background:linear-gradient(90deg,var(--cyan),var(--supported))}
+.never{margin-top:26px;font-size:27px;color:var(--muted);display:flex;gap:16px;align-items:center}
+.never svg{width:36px;height:36px;color:var(--supported);flex:none}
+.never b{color:var(--text)}
+
+/* privacy */
+.priv{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:70px;max-width:1500px}
+.priv .glass{display:flex;align-items:center;gap:30px;padding:40px 44px}
+.priv svg{width:64px;height:64px;color:var(--supported);flex:none}
+.priv h4{font-family:var(--display);font-size:38px;margin:0}
+.priv p{font-size:24px;color:var(--muted);margin:8px 0 0}
+
+/* impact */
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:64px}
+.ring{padding:44px 40px;position:relative;overflow:hidden}
+.ring .lvl{font-family:var(--mono);font-size:20px;letter-spacing:.16em;color:var(--orange)}
+.ring h4{font-family:var(--display);font-size:42px;margin:16px 0 0}
+.ring p{font-size:26px;color:var(--muted);line-height:1.5;margin:16px 0 0}
+.ring .orb{position:absolute;right:-70px;bottom:-70px;border-radius:50%;border:2px solid rgba(56,198,244,.25)}
+.ring:nth-child(1) .orb{width:180px;height:180px}
+.ring:nth-child(2) .orb{width:260px;height:260px;box-shadow:0 0 0 40px rgba(56,198,244,.04)}
+.ring:nth-child(3) .orb{width:340px;height:340px;box-shadow:0 0 0 40px rgba(56,198,244,.04),0 0 0 80px rgba(56,198,244,.03)}
+
+/* deploy */
+.deploy{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:56px}
+.deploy .glass{padding:34px 34px}
+.deploy svg{width:54px;height:54px;color:var(--cyan)}
+.deploy h4{font-family:var(--display);font-size:35px;margin:18px 0 0}
+.deploy p{font-size:24px;color:var(--muted);line-height:1.45;margin:12px 0 0}
+.road{margin-top:44px;display:grid;grid-template-columns:auto 1fr 1fr 1fr;gap:20px;align-items:stretch}
+.road .lbl{font-family:var(--mono);font-size:20px;letter-spacing:.16em;color:var(--orange);writing-mode:vertical-rl;transform:rotate(180deg);text-align:center}
+.road .st{padding:24px 28px;border-radius:18px;border:1px solid rgba(255,159,67,.35);background:rgba(255,159,67,.06);font-size:25px;line-height:1.4;position:relative}
+.road .st b{display:block;font-family:var(--mono);color:var(--orange);font-size:18px;letter-spacing:.14em;margin-bottom:6px}
+.road .st:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:14px;height:14px;border-top:2px solid var(--orange);border-right:2px solid var(--orange);transform:translateY(-50%) rotate(45deg)}
+
+/* closing */
+.closing{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding-bottom:40px}
+.closing img{width:820px;border-radius:24px;box-shadow:0 0 0 1px var(--line-strong),0 0 100px rgba(56,198,244,.3)}
+.closing .tag{font-family:var(--display);font-size:68px;font-weight:700;margin-top:46px;line-height:1.1}
+.closing .tag span{color:var(--cyan)} .closing .tag em{font-style:normal;color:var(--orange)}
+.closing .sub{font-size:28px;color:var(--muted);margin-top:22px}
+.closing .sub b{color:var(--text)}
+
+/* backup */
+.srclist{margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.srclist a{display:block;padding:24px 28px;text-decoration:none;font-size:23px;line-height:1.4;transition:.2s}
+.srclist a:hover{border-color:var(--cyan)}
+.srclist a b{display:block;font-family:var(--display);font-size:28px;margin-bottom:4px}
+.srclist a span{color:var(--muted)}
+.faq{margin-top:44px;display:grid;gap:16px;max-width:1500px}
+.q{padding:0;overflow:hidden}
+.q button{width:100%;display:flex;justify-content:space-between;align-items:center;padding:24px 32px;background:none;border:0;cursor:pointer;font-family:var(--display);font-size:32px;font-weight:600;text-align:left}
+.q button svg{width:30px;height:30px;color:var(--cyan);transition:transform .3s}
+.q .a{max-height:0;overflow:hidden;transition:max-height .4s ease;font-size:25px;line-height:1.5;color:#c4d2de;padding:0 32px}
+.q.open .a{max-height:220px;padding-bottom:26px}
+.q.open button svg{transform:rotate(45deg)}
+
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(3,8,15,.88);backdrop-filter:blur(8px);display:none;overflow:auto;padding:48px}
+.overlay.on{display:block}
+.ov-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;font-family:var(--display);font-size:26px}
+.ov-close{background:none;border:1px solid var(--line);border-radius:999px;padding:8px 18px;cursor:pointer;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.thumb{text-align:left;cursor:pointer;padding:18px 20px;border-radius:16px;border:1px solid var(--line);background:var(--panel-solid);transition:.2s;min-height:120px}
+.thumb:hover,.thumb.cur{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan)}
+.thumb .p{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--cyan);text-transform:uppercase}
+.thumb .t{font-family:var(--display);font-size:20px;font-weight:600;margin-top:8px;line-height:1.25}
+.thumb .no{float:right;font-family:var(--mono);color:var(--muted);font-size:13px}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:12px 24px;font-size:18px;max-width:560px}
+.keys kbd{font-family:var(--mono);font-size:15px;border:1px solid var(--line);border-radius:8px;padding:3px 10px;justify-self:start}
+#notes{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:min(1100px,94vw);max-height:42vh;overflow:auto;z-index:40;padding:22px 28px;font-size:18px;line-height:1.6;display:none;background:rgba(6,14,26,.94);border:1px solid var(--line-strong);border-radius:18px}
+#notes.on{display:block}
+#notes .h{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--cyan);margin-bottom:8px;text-transform:uppercase}
+.modal{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(0,0,0,.85)}
+.modal.on{display:grid}
+.modal video{max-width:92vw;max-height:84vh;border-radius:16px;box-shadow:0 0 0 1px var(--line-strong)}
+.modal .x{position:absolute;top:22px;right:28px;background:none;border:1px solid var(--line);border-radius:999px;padding:8px 18px;cursor:pointer}
+.toast{position:fixed;left:50%;top:22px;transform:translate(-50%,-20px);opacity:0;z-index:70;padding:12px 20px;border-radius:12px;background:var(--panel-solid);border:1px solid var(--line-strong);font-size:15px;transition:.3s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* presenter */
+body.presenter #stage,body.presenter #bgfx,body.presenter .vignette{display:none}
+#pres{display:none;position:fixed;inset:0;padding:22px;gap:18px;grid-template-columns:1.55fr 1fr;grid-template-rows:auto 1fr auto;background:var(--bg);overflow:hidden}
+body.presenter #pres{display:grid}
+#pres .cur,#pres .nxt{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line-strong);background:#000;aspect-ratio:16/9}
+#pres .nxt{border-color:var(--line);opacity:.85}
+#pres iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+#pres .lbl{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+#pres .ptop{grid-column:1/-1;display:flex;align-items:center;gap:20px;font-family:var(--display)}
+#pres .ptop .t{font-size:44px;font-family:var(--mono)}
+#pres .pnotes{font-size:22px;line-height:1.6;overflow:auto;padding:20px 24px;border-radius:14px;border:1px solid var(--line);background:var(--panel-solid)}
+#pres .pnotes b{color:var(--cyan2)}
+#pres .pbot{grid-column:1/-1;display:flex;gap:12px;align-items:center;color:var(--muted)}
+#pres .pbot button{padding:12px 22px;border-radius:12px;border:1px solid var(--line);background:var(--panel-solid);cursor:pointer;font-size:18px}
+body.mini .topbar,body.mini .bottombar,body.mini #bgfx{display:none}
+body.mini .f{opacity:1;transform:none;transition:none}
+body.mini .slide{transition:none}
+body.mini .phone video{display:none}
+body.mini .phone::after{content:"▶  Video hook";position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:34px;font-family:var(--display);background:linear-gradient(160deg,#2a1014,#0b1522)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<div class="vignette"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></symbol>
+    <symbol id="i-tab" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/><path d="M14 13l3 3-3 3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 11h12M4 16h8"/><circle cx="18" cy="17" r="3"/><path d="M20.2 19.2L22 21"/></symbol>
+    <symbol id="i-frame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h1M6 8v8M9 5v14M12 9v6M15 6v12M18 10v4M21 12h0"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16"/><path d="M8 16l4-5 3 3 5-7"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4z"/><path d="M10 21h4"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><path d="M16 4.5a3.5 3.5 0 010 7M18 14a6 6 0 013.5 6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M10 3h4v3a2 2 0 104 0V3h3v7h-3a2 2 0 100 4h3v7h-7v-3a2 2 0 10-4 0v3H3v-7h3a2 2 0 100-4H3V3z"/></symbol>
+    <symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><path d="M12 16l2-3 2 2 3-4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-tap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5a2 2 0 014 0v6"/><path d="M13 9a2 2 0 014 0v3a7 7 0 01-7 7h-.5a5 5 0 01-4-2l-2.5-3.5a1.7 1.7 0 012.6-2.2L9 13"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7h14M5 7l-3 7a4 4 0 006 0zM19 7l-3 7a4 4 0 006 0z"/></symbol>
+  </defs>
+</svg>
+
+<div id="stage">
+  <header class="topbar">
+    <div class="brand"><img src="../logo/narasi-ikon.png" alt="">NARASI</div>
+    <nav class="parts" id="parts"></nav>
+    <button class="timer" id="timer" title="Klik: mulai/jeda · T: reset">00:00</button>
+  </header>
+
+  <!-- ===================== 1 · LATAR BELAKANG ===================== -->
+  <section class="slide" data-part="0" data-title="Hook: 18.000 pasukan ke Aceh">
+    <div class="hook">
+      <div class="phone" id="hookPhone">
+        <video id="hookVideo" src="../../video/public/rec/demo.mp4" muted playsinline preload="auto"></video>
+        <div class="fallback">Rekaman tidak ditemukan.<br>Pastikan folder <span class="mono">video/public/rec/</span> ada.</div>
+      </div>
+      <div>
+        <div class="quote"><small>YouTube Shorts · Juli 2025</small>“18.000 pasukan TNI dikirim ke Aceh.”</div>
+        <div class="stamp f">HOAKS</div>
+        <div class="fact f">Faktanya: <b>latihan Yonkav 1 Kostrad di Baturaja</b>.<br>Dibantah Komdigi sejak <b>1 Oktober 2025</b>.</div>
+        <div class="daycount f"><div class="big" data-days>400</div><div class="lbl"><b>hari sejak dibantah.</b>Videonya masih tayang.</div></div>
+      </div>
+    </div>
+    <aside class="notes">(Biarkan video jalan 3 detik.) "Bapak-Ibu dewan juri, video ini bilang <b>delapan belas ribu pasukan TNI dikirim ke Aceh</b>. [klik] Faktanya? Latihan Yonkav 1 Kostrad di Baturaja. Komdigi sudah mencapnya hoaks sejak 1 Oktober 2025. [klik] Tapi hari ini, lebih dari 400 hari kemudian, videonya <b>masih tayang</b>. (jeda) Bantahannya ada. Videonya juga ada. Masalahnya, dua-duanya nggak pernah ketemu di layar yang sama."</aside>
+  </section>
+
+  <section class="slide" data-part="0" data-title="Skala masalah">
+    <div class="eyebrow">Skala masalah</div>
+    <h2>Hoaks bergerak <span class="warm">lebih cepat</span> dari bantahannya.</h2>
+    <div class="stats">
+      <div class="stat glass f"><div class="num"><span data-count="229">0</span><span class="u">juta</span></div><div class="cap">orang Indonesia <b>sudah online</b></div></div>
+      <div class="stat glass f"><div class="num"><span data-count="194">0</span><span class="u">juta</span></div><div class="cap">pengguna TikTok, <b>hampir 2 jam/hari</b></div></div>
+      <div class="stat glass hot f"><div class="num"><span data-count="1674" data-sep>0</span></div><div class="cap">hoaks tercatat setahun: <b>4–5 hoaks baru per hari</b></div></div>
+    </div>
+    <div class="share glass f"><div class="t"><b>341</b> menyasar pemerintahan &amp; institusi negara</div><div class="bar"><i data-w="20.4"></i></div><div class="t mono">20%</div></div>
+    <div class="kicker f">Dan itu baru yang <span>ketahuan.</span></div>
+    <div class="src">APJII 2025 · We Are Social/Meltwater &amp; DataReportal 2025 · Komdigi, 22 Okt 2024–20 Okt 2025</div>
+    <aside class="notes">"Sekarang lihat skalanya. [klik] <b>229 juta</b> orang Indonesia sudah online. [klik] Sekitar <b>194 juta</b> pakai TikTok, hampir 2 jam sehari. [klik] Dalam setahun Komdigi mencatat <b>1.674 hoaks</b>, itu 4–5 hoaks baru setiap hari, [klik] dan 341 di antaranya menyasar pemerintahan dan institusi negara. [klik] Dan itu cuma yang <b>ketahuan</b>."</aside>
+  </section>
+
+  <section class="slide" data-part="0" data-title="Tim PostgreMyself">
+    <div class="eyebrow">Perkenalan tim</div>
+    <h2>Tim <em>PostgreMyself</em></h2>
+    <div class="team">
+      <div class="person glass"><div class="avatar"><img src="raphael.png" alt="Foto Raphael Diovana Tarigan"></div><h3>Raphael Diovana Tarigan</h3><p>Full Stack Engineer</p></div>
+      <div class="pillars">
+        <div class="pillar glass f"><svg><use href="#i-puzzle"/></svg><div><h4>Ekstensi browser</h4><p>Label hoaks langsung di atas caption video</p></div></div>
+        <div class="pillar glass f"><svg><use href="#i-server"/></svg><div><h4>Server analisis AI</h4><p>Klaim, teks layar, suara, dan pencarian bukti</p></div></div>
+        <div class="pillar glass f"><svg><use href="#i-dash"/></svg><div><h4>Dashboard petugas</h4><p>Peringatan dini untuk Penerangan TNI AD</p></div></div>
+      </div>
+    </div>
+    <aside class="notes">"Kami tim <b>PostgreMyself</b>. Saya <b>Raphael Diovana Tarigan</b>, full stack engineer, dan saya membangun NARASI dari ujung ke ujung: [klik] ekstensi browser, [klik] server analisis, [klik] sampai dashboard petugas."</aside>
+  </section>
+
+  <section class="slide" data-part="0" data-title="Hoaks TNI datang beruntun">
+    <div class="eyebrow">Kasus nyata</div>
+    <h2>Hoaks soal TNI itu nyata, dan <span class="warm">datangnya beruntun.</span></h2>
+    <div class="timeline">
+      <div class="tl f"><div class="dot"><i></i></div><div class="when">5 SEP 2025</div><div class="card glass"><b>5 hoaks sekaligus</b>Puspen TNI membantah tuduhan prajurit jadi provokator demo<span class="s">Antara · RMOL</span></div></div>
+      <div class="tl f"><div class="dot"><i></i></div><div class="when">1 OKT 2025</div><div class="card glass"><b>"18.000 pasukan ke Aceh"</b>Dicap hoaks Komdigi, videonya masih tayang sampai hari ini<span class="s">Laporan Isu Hoaks Komdigi</span></div></div>
+      <div class="tl f"><div class="dot"><i></i></div><div class="when">25 MAR 2026</div><div class="card glass"><b>"TNI Siaga 1, warga siapkan stok"</b>Beredar di TikTok saat konflik global memanas<span class="s">Laporan Isu Hoaks Komdigi</span></div></div>
+    </div>
+    <div class="pattern f"><span>Video pendek</span><svg><use href="#i-arrow"/></svg><span class="r">viral dalam jam</span><svg><use href="#i-arrow"/></svg><span>bantahan dalam hari</span></div>
+    <aside class="notes">[klik ×3 untuk tiap kasus] "Ini bukan teori. Narasi palsu soal TNI muncul tiap ada momen genting: demo, konflik global, bencana. [klik] Polanya selalu sama: <b>video pendek, nyebar dalam jam, bantahan datang dalam hari.</b>"</aside>
+  </section>
+
+  <section class="slide" data-part="0" data-title="Tiga celah">
+    <div class="eyebrow">Akar masalah</div>
+    <h2>Kenapa cek fakta biasa <span class="warm">kalah cepat?</span></h2>
+    <div class="gaps">
+      <div class="gap glass f"><div class="ic"><svg><use href="#i-eye"/></svg></div><h4>Hoaksnya ngumpet</h4><p>Caption terlihat aman, klaimnya ada di <b style="color:var(--text)">teks layar dan suara</b>. Alat cek fakta biasa cuma baca teks.</p></div>
+      <div class="gap glass f"><div class="ic"><svg><use href="#i-tab"/></svg></div><h4>Harus pindah tab</h4><p>Hampir tidak ada yang berhenti scroll, buka Google, lalu cari situs cek fakta.</p></div>
+      <div class="gap glass f"><div class="ic"><svg><use href="#i-clock"/></svg></div><h4>Penerangan tahu telat</h4><p>Baru sadar setelah video viral, padahal momen emasnya di jam-jam pertama.</p></div>
+    </div>
+    <div class="domains glass f">
+      <span class="d">Darat</span><span class="d">Laut</span><span class="d">Udara</span><span class="d k">Kognitif</span>
+      <div class="t"><b>Medan keempat.</b> Deepfake &amp; hoaks berbasis AI naik signifikan di 2025 (Mafindo).</div>
+    </div>
+    <aside class="notes">"Ada tiga celah: [klik] <b>hoaksnya ngumpet</b> di teks layar dan suara, [klik] orang <b>harus pindah tab</b>, [klik] dan <b>Penerangan tahunya telat</b>. [klik] Mafindo juga mencatat deepfake naik signifikan di 2025, jadi celahnya makin lebar. Ini serangan ke <b>domain kognitif</b>, medan keempat setelah darat, laut, dan udara. Di medan ini, prajurit dan keluarganya ada di garis depan setiap kali mereka scroll."</aside>
+  </section>
+
+  <!-- Aktifkan slide survei dengan menghapus class "skip" setelah angkanya diisi. -->
+  <section class="slide skip" data-part="0" data-title="Hasil survei">
+    <div class="eyebrow">Suara prajurit</div>
+    <h2>Survei prajurit &amp; ASN TNI</h2>
+    <div class="stats">
+      <div class="stat glass f"><div class="num"><span data-count="0">0</span></div><div class="cap">responden TNI AD, AL, AU</div></div>
+      <div class="stat glass f"><div class="num"><span data-count="0">0</span><span class="u">%</span></div><div class="cap">pernah menemukan hoaks yang mencatut TNI</div></div>
+      <div class="stat glass hot f"><div class="num"><span data-count="0">0</span><span class="u">%</span></div><div class="cap">indeks urgensi: <b>sangat mendesak</b></div></div>
+    </div>
+    <aside class="notes">"Kami juga survei [n] prajurit dan ASN TNI..."</aside>
+  </section>
+
+  <!-- ===================== 2 · SOLUSI ===================== -->
+  <section class="slide" data-part="1" data-title="Perkenalkan NARASI">
+    <div class="reveal">
+      <img class="logo-hero" src="../logo/narasi-logo.png" alt="Logo NARASI: Verification &amp; Narrative Insights">
+      <div>
+        <div class="eyebrow">Solusi</div>
+        <h2 style="font-size:56px">Bantahan muncul di <em>layar yang sama</em>, di <em>detik yang sama</em>.</h2>
+        <div class="duo" style="margin-top:34px">
+          <div class="glass f"><h4><svg><use href="#i-puzzle"/></svg>Ekstensi browser</h4><p>Untuk siapa saja yang menonton. Label berbasis bukti <b>langsung di atas caption</b>.</p>
+            <div class="three"><span><svg><use href="#i-text"/></svg>Caption</span><span><svg><use href="#i-frame"/></svg>Teks layar</span><span><svg><use href="#i-wave"/></svg>Suara</span></div>
+            <div class="chips"><span class="chip">IG Reels</span><span class="chip">TikTok</span><span class="chip">YouTube Shorts</span><span class="chip">FB Reels</span><span class="chip">Beranda IG &amp; FB</span></div></div>
+          <div class="glass f"><h4><svg><use href="#i-dash"/></svg>Dashboard Penerangan</h4><p>Video yang <b>perlu segera ditangani</b>, lengkap dengan peringatan dini dan rekomendasi aksi.</p></div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">"Jadi saya bikin <b>NARASI</b>. Isinya dua bagian: [klik] <b>ekstensi browser</b> untuk siapa saja yang nonton video di Reels, TikTok, Shorts. Ekstensi ini membaca caption, membaca layar, mendengarkan suara, lalu menaruh label berbasis bukti langsung di atas caption. Nggak perlu pindah tab. [klik] Dan <b>dashboard</b> untuk petugas Penerangan TNI AD. Yang dicek semua topik, termasuk video berbahasa asing, tapi yang menyangkut TNI langsung naik ke meja Penerangan."</aside>
+  </section>
+
+  <section class="slide" data-part="1" data-title="Enam label NARASI">
+    <div class="eyebrow">Label yang jelas</div>
+    <h2>Enam label. <em>Indikasi Hoaks</em> hanya lahir dari bukti.</h2>
+    <div class="labels" id="labels">
+      <button class="lab" style="--c:var(--hoax)"><span class="badge"><i></i>Indikasi Hoaks</span><p>Ada bantahan resmi atau cek fakta yang menyatakan isinya keliru.</p><div class="ex">"18.000 pasukan TNI ke Aceh" → cocok dengan bantahan Komdigi 1 Okt 2025</div></button>
+      <button class="lab" style="--c:var(--caution)"><span class="badge"><i></i>Perlu Diwaspadai</span><p>Ajakan "sebarkan!", sumber tidak jelas, klaim dilebih-lebihkan.</p><div class="ex">"Besok semua ATM diblokir!! Sebarkan sebelum dihapus"</div></button>
+      <button class="lab" style="--c:var(--supported)"><span class="badge"><i></i>Didukung Sumber</span><p>Sesuai berita atau sumber resmi yang terpercaya.</p><div class="ex">"Pendaftaran Bintara TNI AD gratis lewat situs resmi"</div></button>
+      <button class="lab" style="--c:var(--unverified)"><span class="badge"><i></i>Belum Terverifikasi</span><p>Belum ada bukti yang membenarkan atau membantah.</p><div class="ex">"TNI gelar baksos di Aceh 1 November" → mirip kata, beda peristiwa</div></button>
+      <button class="lab" style="--c:var(--satire)"><span class="badge"><i></i>Opini/Satire</span><p>Candaan, parodi, atau pendapat pribadi.</p><div class="ex">"Prajurit TNI wajib bisa terbang tanpa pesawat #satire"</div></button>
+      <button class="lab" style="--c:var(--neutral)"><span class="badge" style="color:#e8f1f8"><i style="background:#e8f1f8"></i>Tanpa klaim</span><p>Tidak ada pernyataan fakta yang perlu dicek.</p><div class="ex">"Lagi ngopi santai sore sama teman-teman"</div></button>
+    </div>
+    <div class="tapnote"><svg><use href="#i-tap"/></svg>Klik label untuk melihat contoh</div>
+    <aside class="notes">"Labelnya dibuat sejelas mungkin. (Klik 1–2 label untuk contoh.) Dan yang paling penting: label <b>Indikasi Hoaks</b> cuma keluar kalau ada buktinya. Gaya bahasa atau penilaian AI hanya peringatan awal, bukan vonis."</aside>
+  </section>
+
+  <section class="slide" data-part="1" data-title="Live demo">
+    <div class="eyebrow">Demo langsung</div>
+    <h2>Bukan mockup. <em>Jalan beneran.</em><span class="live"><i></i>LIVE</span></h2>
+    <div class="demo">
+      <div class="launch">
+        <a class="lbtn" id="lnk-hoax" target="_blank" rel="noopener"><span class="k">TAB 1 · HOAKS</span><span class="t">YouTube Shorts asli</span><span class="e">"18.000 pasukan ke Aceh"</span></a>
+        <a class="lbtn" id="lnk-official" target="_blank" rel="noopener"><span class="k">TAB 2 · RESMI</span><span class="t">Video resmi TNI AD</span><span class="e">Tidak asal dicap hoaks</span></a>
+        <a class="lbtn" id="lnk-satire" target="_blank" rel="noopener"><span class="k">TAB 3 · SATIRE</span><span class="t">Video satire / opini</span><span class="e">Dilabeli Opini/Satire</span></a>
+        <a class="lbtn" id="lnk-dash" target="_blank" rel="noopener"><span class="k">TAB 4 · PETUGAS</span><span class="t">Dashboard NARASI</span><span class="e mono">localhost:5174</span></a>
+        <button class="lbtn backup" id="openBackup"><svg><use href="#i-play"/></svg><span><span class="t" style="display:block">Rekaman cadangan</span><span class="e">Putar kalau jaringan atau laptop bermasalah</span></span></button>
+      </div>
+      <div class="steps glass">
+        <h4><span>Alur demo</span><span id="stepCount">0/5</span></h4>
+        <button class="step"><span class="box"><svg><use href="#i-check"/></svg></span><span>Label naik ke <b>Indikasi Hoaks · Mencatut TNI</b> (detik ke-4,8)</span></button>
+        <button class="step"><span class="box"><svg><use href="#i-check"/></svg></span><span>Panel rincian: <b>klaim, sumber, kesimpulan</b> bersitasi</span></button>
+        <button class="step"><span class="box"><svg><use href="#i-check"/></svg></span><span>Video resmi &amp; satire: <b>tidak asal dicap hoaks</b></span></button>
+        <button class="step"><span class="box"><svg><use href="#i-check"/></svg></span><span><b>Laporkan ke TNI AD</b>: sekali klik, anonim</span></button>
+        <button class="step"><span class="box"><svg><use href="#i-check"/></svg></span><span>Dashboard: <b>realtime, peringatan dini, rekomendasi</b></span></button>
+      </div>
+    </div>
+    <aside class="notes">"Daripada cuma cerita, saya tunjukkan langsung. Ini bukan mockup." <b>Tab 1:</b> putar Shorts, tunggu label naik dari Belum Terverifikasi ke Indikasi Hoaks · Mencatut TNI, klik label, tunjukkan klaim, sumber Komdigi, kesimpulan. <b>Tab 2–3:</b> video resmi dan satire tidak dicap hoaks. <b>Lapor:</b> kembali ke tab 1, Laporkan ke TNI AD, kirim. <b>Tab 4:</b> Realtime → Peringatan dini (laporan tadi masuk) → Rekomendasi &amp; simulasi → Laporan. Sebutkan: video publik yang sudah dibantah, laporan hanya ke server lokal. Klik kotak di kanan untuk menandai tiap langkah.</aside>
+  </section>
+
+  <!-- ===================== 3 · KEUNIKAN ===================== -->
+  <section class="slide" data-part="2" data-title="NARASI vs cara yang ada">
+    <div class="eyebrow">Keunikan</div>
+    <h2>Apa bedanya dengan <em>cek fakta yang sudah ada?</em></h2>
+    <table class="cmp">
+      <thead><tr><th></th><th>Situs cek fakta</th><th>Moderasi platform</th><th class="n">NARASI</th></tr></thead>
+      <tbody>
+        <tr class="f"><td>Di mana</td><td>Pindah tab, cari sendiri</td><td>Tidak terlihat</td><td class="n">Langsung di atas caption</td></tr>
+        <tr class="f"><td>Yang dibaca</td><td>Teks</td><td>Tergantung platform</td><td class="n">Caption + teks layar + suara</td></tr>
+        <tr class="f"><td>Dasar label</td><td>Artikel per kasus</td><td>Kebijakan internal</td><td class="n">Bukti bersitasi, bisa dicek</td></tr>
+        <tr class="f"><td>Kecepatan</td><td>Jam sampai hari</td><td>Tidak menentu</td><td class="n">±0,1 dtk label awal</td></tr>
+        <tr class="f"><td>Untuk TNI AD</td><td class="x">—</td><td class="x">—</td><td class="n">Peringatan dini + rekomendasi aksi</td></tr>
+      </tbody>
+    </table>
+    <aside class="notes">"Jadi apa bedanya? [klik per baris] Situs cek fakta mengharuskan kita pindah tab dan hanya baca teks. Moderasi platform tidak terlihat dan pakai kebijakan internal. <b>NARASI</b> ada di atas caption, baca caption-layar-suara, labelnya bersitasi, label awal dalam ±0,1 detik, dan khusus untuk TNI AD ada peringatan dini."</aside>
+  </section>
+
+  <section class="slide" data-part="2" data-title="Lima pembeda">
+    <div class="eyebrow">Keunikan</div>
+    <h2>Lima hal yang bikin NARASI <em>beda.</em></h2>
+    <div class="five">
+      <div class="glass f"><div class="no">01</div><svg><use href="#i-tab"/></svg><h4>Di tempat hoaks beredar</h4><p>Label di atas caption. Tanpa pindah tab.</p></div>
+      <div class="glass f"><div class="no">02</div><svg><use href="#i-wave"/></svg><h4>Multimodal</h4><p>Caption, teks layar, <i>dan</i> suara.</p></div>
+      <div class="glass f"><div class="no">03</div><svg><use href="#i-scale"/></svg><h4>Hoaks lahir dari bukti</h4><p>AI tidak memvonis sendiri. Aman dari tuduhan sensor.</p></div>
+      <div class="glass f"><div class="no">04</div><svg><use href="#i-shield"/></svg><h4>Tahan salah cocok</h4><p>"Baksos TNI di Aceh" ≠ "TNI serang Aceh". Masuk tes otomatis.</p></div>
+      <div class="glass f"><div class="no">05</div><svg><use href="#i-bell"/></svg><h4>Dua sisi, satu sistem</h4><p>Label untuk penonton + peringatan dini untuk Penerangan.</p></div>
+    </div>
+    <aside class="notes">"Lima hal: [klik] ada di tempat hoaks beredar. [klik] <b>Multimodal</b>: tadi kita lihat sendiri, caption-nya aman, tapi ketahuan dari teks layar. [klik] <b>Hoaks hanya lahir dari bukti</b>, AI tidak memvonis sendiri, penting supaya TNI nggak dituduh menyensor. [klik] <b>Tahan salah cocok</b>. [klik] <b>Dua sisi dalam satu sistem</b>: penonton dapat label, Penerangan dapat peringatan dini."</aside>
+  </section>
+
+  <!-- ===================== 4 · TEKNOLOGI ===================== -->
+  <section class="slide" data-part="3" data-title="Alur sistem">
+    <div class="eyebrow">Teknologi</div>
+    <h2 style="font-size:64px">Dari video ke vonis dalam <em>hitungan detik.</em></h2>
+    <div class="arch">
+      <svg class="flow" viewBox="0 0 1180 640" id="flow">
+        <path id="w1" class="wire" d="M200 120 H320"/>
+        <path id="w2" class="wire" d="M560 120 H680"/>
+        <path id="w3" class="wire" d="M800 175 V300"/>
+        <path id="w4" class="wire" d="M680 340 H560"/>
+        <path id="w5" class="wire" d="M440 395 V500"/>
+        <path id="w6" class="wire" d="M560 545 H680"/>
+        <path id="w7" class="wire" d="M920 545 H1000"/>
+        <path id="w8" class="wire" d="M320 340 H120 V175" style="stroke:rgba(255,159,67,.45)"/>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" repeatCount="indefinite"><mpath href="#w1"/></animateMotion></circle>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" begin=".3s" repeatCount="indefinite"><mpath href="#w2"/></animateMotion></circle>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" begin=".6s" repeatCount="indefinite"><mpath href="#w3"/></animateMotion></circle>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" begin=".9s" repeatCount="indefinite"><mpath href="#w4"/></animateMotion></circle>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" begin="1.1s" repeatCount="indefinite"><mpath href="#w5"/></animateMotion></circle>
+        <circle r="7" class="pulse"><animateMotion dur="1.4s" begin="1.3s" repeatCount="indefinite"><mpath href="#w6"/></animateMotion></circle>
+        <circle r="7" class="pulse w"><animateMotion dur="1.2s" begin="1.5s" repeatCount="indefinite"><mpath href="#w7"/></animateMotion></circle>
+        <circle r="7" class="pulse w"><animateMotion dur="2s" begin=".2s" repeatCount="indefinite"><mpath href="#w8"/></animateMotion></circle>
+
+        <g class="node" data-k="video"><rect x="20" y="65" width="180" height="110" rx="18"/><text x="110" y="115" text-anchor="middle">Video</text><text class="s" x="110" y="145" text-anchor="middle">Reels · TikTok · Shorts</text></g>
+        <g class="node" data-k="ext"><rect x="320" y="65" width="240" height="110" rx="18"/><text x="440" y="115" text-anchor="middle">Ekstensi</text><text class="s" x="440" y="145" text-anchor="middle">caption · frame · audio</text></g>
+        <g class="node sel" data-k="api"><rect x="680" y="65" width="240" height="110" rx="18"/><text x="800" y="115" text-anchor="middle">Server FastAPI</text><text class="s" x="800" y="145" text-anchor="middle">klaim · OCR · suara</text></g>
+        <g class="node" data-k="evidence"><rect x="680" y="300" width="240" height="110" rx="18"/><text x="800" y="350" text-anchor="middle">Cari bukti</text><text class="s" x="800" y="380" text-anchor="middle">6 sumber sekaligus</text></g>
+        <g class="node" data-k="verdict"><rect x="320" y="300" width="240" height="95" rx="18"/><text x="440" y="345" text-anchor="middle">Vonis + sitasi</text><text class="s" x="440" y="372" text-anchor="middle">bukti dulu, baru AI</text></g>
+        <g class="node warm" data-k="sse"><rect x="20" y="245" width="0" height="0" rx="0"/><text x="215" y="322" text-anchor="middle" class="s" style="fill:var(--orange)">SSE → label di layar</text></g>
+        <g class="node" data-k="store"><rect x="320" y="500" width="240" height="95" rx="18"/><text x="440" y="545" text-anchor="middle">Cache bersama</text><text class="s" x="440" y="572" text-anchor="middle">Redis · SQLite</text></g>
+        <g class="node" data-k="dash"><rect x="680" y="500" width="240" height="95" rx="18"/><text x="800" y="545" text-anchor="middle">Dashboard</text><text class="s" x="800" y="572" text-anchor="middle">Mode Satuan</text></g>
+        <g class="node warm" data-k="tg"><rect x="1000" y="500" width="160" height="95" rx="18"/><text x="1080" y="545" text-anchor="middle">Telegram</text><text class="s" x="1080" y="572" text-anchor="middle">petugas</text></g>
+      </svg>
+      <div class="detail glass" id="detail"></div>
+    </div>
+    <aside class="notes">"Alurnya begini. Ekstensi nangkep <b>tiga sinyal</b>: caption, frame layar, dan audio, lalu dikirim ke server FastAPI. Di server, klaim diekstrak, teks layar dibaca, suara ditranskripsi, lalu dicari buktinya dari enam sumber sekaligus. Hasilnya didorong balik lewat <b>Server-Sent Events</b>: label awal ±0,1 detik, lalu jadi final setelah layar dan suara selesai dicek." (Klik kotak di diagram untuk rincian teknologi.)</aside>
+  </section>
+
+  <section class="slide" data-part="3" data-title="Siap skala satuan">
+    <div class="eyebrow">Teruji</div>
+    <h2>Satu video viral, ribuan prajurit, <em>satu panggilan AI.</em></h2>
+    <div class="scale">
+      <div class="glass f"><div class="num"><span data-count="1000" data-sep>0</span></div><p>prajurit serentak dalam uji beban</p></div>
+      <div class="glass good f"><div class="num"><span data-count="0">0</span></div><p>galat</p></div>
+      <div class="glass f"><div class="num"><span data-count="4.3" data-dec="1">0</span><small> ms</small></div><p>label pertama dikirim server (p50)</p></div>
+      <div class="glass good f"><div class="num"><span data-count="97.9" data-dec="1">0</span><small>%</small></div><p>hemat pemakaian AI</p></div>
+    </div>
+    <div class="bars glass f">
+      <div class="brow a"><span>Tanpa cache</span><div class="bar"><i data-w="100"></i></div><span class="v">±4.046</span></div>
+      <div class="brow b"><span>NARASI (singleflight)</span><div class="bar"><i data-w="2.05"></i></div><span class="v">83</span></div>
+      <div class="never"><svg><use href="#i-shield"/></svg><span><b>Nggak pernah blank.</b> Kuota AI habis atau internet putus? Label tetap keluar dari bantahan resmi tersimpan + pola bahasa.</span></div>
+    </div>
+    <div class="src">docs/KESIAPAN-PRODUKSI.md · docs/bukti/ · simulasi 2.000 pemeriksaan</div>
+    <aside class="notes">"Kalau satu video viral dibuka ratusan prajurit sekaligus, permintaannya digabung jadi <b>satu panggilan AI</b> (singleflight) dan disimpan di cache bersama. [klik] <b>1.000 prajurit serentak</b>, [klik] <b>0 galat</b>, [klik] label pertama <b>p50 4,3 ms</b>, [klik] pemakaian AI <b>hemat 97,9%</b>: [klik] 83 permintaan, bukan ±4.046. Uji dengan API asli: 20 prajurit buka video yang sama, cukup 1 panggilan LLM. Dan NARASI nggak pernah blank."</aside>
+  </section>
+
+  <section class="slide" data-part="3" data-title="Privasi">
+    <div class="eyebrow">Privasi</div>
+    <h2>Aman untuk <em>prajurit.</em></h2>
+    <div class="priv">
+      <div class="glass f"><svg><use href="#i-lock"/></svg><div><h4>Tidak menyimpan video</h4><p>Frame diproses lalu dibuang</p></div></div>
+      <div class="glass f"><svg><use href="#i-eye"/></svg><div><h4>Tidak membaca akun</h4><p>Tanpa login, tanpa data profil</p></div></div>
+      <div class="glass f"><svg><use href="#i-users"/></svg><div><h4>ID penonton di-hash</h4><p>Hanya untuk menghitung lonjakan</p></div></div>
+      <div class="glass f"><svg><use href="#i-shield"/></svg><div><h4>Laporan anonim</h4><p>Identitas pelapor tidak terkirim</p></div></div>
+    </div>
+    <aside class="notes">(Opsional, 15 detik.) "Kami tidak menyimpan video siapa pun dan tidak membaca akun. Penonton dihitung pakai hash ID instalasi acak. Laporan ke TNI AD anonim."</aside>
+  </section>
+
+  <!-- ===================== 5 · OUTCOME ===================== -->
+  <section class="slide" data-part="4" data-title="Dampak nyata">
+    <div class="eyebrow">Outcome</div>
+    <h2>Dampak di <em>tiga lapis.</em></h2>
+    <div class="rings">
+      <div class="ring glass f"><div class="lvl">LAPIS 1</div><h4>Prajurit &amp; keluarga</h4><p>Tameng kognitif langsung di layar. Tidak ikut menyebarkan hoaks yang mencatut institusinya sendiri.</p><div class="orb"></div></div>
+      <div class="ring glass f"><div class="lvl">LAPIS 2</div><h4>Penerangan TNI AD</h4><p>Peringatan dini, bukti siap pakai, dan rekomendasi aksi <b style="color:var(--text)">sebelum viral</b>.</p><div class="orb"></div></div>
+      <div class="ring glass f"><div class="lvl">LAPIS 3</div><h4>Pertahanan siber nasional</h4><p>Data agregat narasi untuk analisis operasi informasi. Bisa diperluas ke matra lain, Puspen TNI, Komdigi.</p><div class="orb"></div></div>
+    </div>
+    <aside class="notes">"Dampaknya ada di tiga lapis: [klik] <b>prajurit dan keluarga</b> dapat tameng kognitif di layar, [klik] <b>Penerangan TNI AD</b> dapat sistem peringatan dini dan rekomendasi aksi, [klik] dan untuk <b>pertahanan siber nasional</b>, data agregat narasi bisa jadi bahan analisis operasi informasi."</aside>
+  </section>
+
+  <section class="slide" data-part="4" data-title="Siap dipasang">
+    <div class="eyebrow">Kelayakan implementasi</div>
+    <h2>Bukan cuma purwarupa. <em>Siap dipasang.</em></h2>
+    <div class="deploy">
+      <div class="glass f"><svg><use href="#i-globe"/></svg><h4>Pasang serentak</h4><p>Force-install lewat Chrome/Edge Enterprise ke semua perangkat satuan.</p></div>
+      <div class="glass f"><svg><use href="#i-server"/></svg><h4>Server sendiri</h4><p>Satu <span class="mono">docker-compose</span>, cukup 2 vCPU &amp; 2 GB RAM, bisa on-premise.</p></div>
+      <div class="glass f"><svg><use href="#i-code"/></svg><h4>Mudah dirawat</h4><p>Platform ganti tampilan? Cukup perbaiki satu adapter.</p></div>
+    </div>
+    <div class="road f">
+      <div class="lbl">LANGKAH</div>
+      <div class="st"><b>01 · 30 HARI</b>Pilot di satu Kodim / Dispen</div>
+      <div class="st"><b>02 · KORPUS</b>Perluas bantahan bersama PPID TNI AD</div>
+      <div class="st"><b>03 · DEEPFAKE</b>Deteksi video hasil rekayasa AI</div>
+    </div>
+    <aside class="notes">"Dan ini bukan cuma purwarupa. [klik] Bisa <b>dipasang serentak</b> lewat Chrome/Edge Enterprise, [klik] jalan di <b>server sendiri</b> cukup 2 vCPU dan 2 GB RAM, [klik] dan <b>mudah dirawat</b>. [klik] Langkah berikutnya: pilot 30 hari di satu Kodim atau Dispen, memperluas korpus bantahan bersama PPID TNI AD, lalu deteksi deepfake."</aside>
+  </section>
+
+  <!-- ===================== 6 · PENUTUPAN ===================== -->
+  <section class="slide" data-part="5" data-title="Penutup">
+    <div class="closing">
+      <img src="../logo/narasi-logo.png" alt="Logo NARASI">
+      <div class="tag"><span>Scroll tetap jalan,</span> <em>hoaks nggak lolos.</em></div>
+      <div class="sub"><b data-days>400</b> hari setelah dibantah, hoaks masih tayang. NARASI memastikan bantahannya muncul <b>di layar yang sama, di detik yang sama.</b></div>
+      <div class="sub" style="margin-top:34px;font-family:var(--mono);letter-spacing:.16em">TIM POSTGREMYSELF · TERIMA KASIH</div>
+    </div>
+    <aside class="notes">"Ingat video tadi? <b>Lebih dari 400 hari</b> setelah dibantah, masih tayang. Kita nggak bisa menghapus semua hoaks. Tapi kita bisa memastikan <b>bantahannya muncul di layar yang sama, di detik yang sama</b>. NARASI: scroll tetap jalan, hoaks nggak lolos. Saya Raphael dari tim PostgreMyself. Terima kasih."</aside>
+  </section>
+
+  <!-- ===================== CADANGAN ===================== -->
+  <section class="slide" data-part="5" data-title="Cadangan: sumber data">
+    <div class="eyebrow">Cadangan · sumber data</div>
+    <h2>Semua angka <em>bersumber.</em></h2>
+    <div class="srclist">
+      <a class="glass" target="_blank" rel="noopener" href="https://teknologi.bisnis.com/read/20250806/101/1899997/data-apjii-pengguna-internet-di-indonesia-tembus-22943-juta-orang-pada-2025"><b>229,43 juta pengguna internet</b><span>APJII 2025 · penetrasi 80,66% · Bisnis.com</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://rri.co.id/kupang/hiburan/1757559/indonesia-puncaki-daftar-pengguna-tiktok-terbanyak-dunia-2025"><b>±194 juta pengguna TikTok</b><span>We Are Social/Meltwater Jul 2025 · RRI</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://goodstats.id/article/berapa-lama-orang-indonesia-habiskan-waktu-untuk-scroll-tiktok-dalam-sehari-bGKAs"><b>1 jam 53 menit per hari</b><span>DataReportal Agu 2025 · GoodStats</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://jawapos.com/nasional/2607250344/komdigi-temukan-1674-hoaks-publik-diminta-lebih-kritis-menyikapi-informasi-di-media-sosial"><b>1.674 hoaks setahun</b><span>Komdigi, 22 Okt 2024–20 Okt 2025 · JawaPos</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://katadata.co.id/amp/digital/teknologi/68fc642383ae9/mafindo-ungkap-deepfake-dan-scam-warnai-tahun-pertama-prabowo-gibran/"><b>Deepfake &amp; scam dominan</b><span>Mafindo, 1.593 hoaks Okt 2024–Okt 2025 · Katadata</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://jogja.antaranews.com/berita/766529/tni-bantah-lima-informasi-viral-yang-menyebut-tni-terlibat-aksi-demo"><b>Puspen TNI bantah 5 hoaks</b><span>5 Sep 2025 · Antara Jogja</span></a>
+      <a class="glass" target="_blank" rel="noopener" href="https://kabar24.bisnis.com/read/20260326/621/1962354/komdigi-ungkap-hoaks-siaga-1-tni-hingga-isu-bbm-rp16000"><b>Hoaks "Siaga 1 TNI"</b><span>Komdigi 25 Mar 2026 · Bisnis.com</span></a>
+      <div class="glass" style="padding:24px 28px;font-size:23px"><b style="display:block;font-family:var(--display);font-size:28px;margin-bottom:4px">Angka performa NARASI</b><span style="color:var(--muted)">docs/KESIAPAN-PRODUKSI.md · docs/bukti/</span></div>
+    </div>
+    <aside class="notes">Slide cadangan untuk tanya jawab.</aside>
+  </section>
+
+  <section class="slide" data-part="5" data-title="Cadangan: FAQ">
+    <div class="eyebrow">Cadangan · tanya jawab</div>
+    <h2>Pertanyaan yang <em>sering muncul.</em></h2>
+    <div class="faq" id="faq">
+      <div class="q glass"><button>Bagaimana kalau AI-nya salah?<svg><use href="#i-plus"/></svg></button><div class="a">Label hoaks hanya dari bukti cek fakta atau bantahan resmi. Berita biasa cuma bisa mendukung. Label dari gaya bahasa atau AI hanya peringatan awal, dan sumbernya selalu ditautkan.</div></div>
+      <div class="q glass"><button>Ini sensor?<svg><use href="#i-plus"/></svg></button><div class="a">Tidak. Konten tidak dihapus atau diblokir. NARASI hanya menaruh label + sumber; penonton tetap yang memutuskan.</div></div>
+      <div class="q glass"><button>Berapa biaya API untuk ribuan prajurit?<svg><use href="#i-plus"/></svg></button><div class="a">Singleflight + cache bersama: 2.000 pemeriksaan cukup 83 permintaan AI. Ada pagar kuota per menit dan per hari.</div></div>
+      <div class="q glass"><button>Kalau kuota AI habis?<svg><use href="#i-plus"/></svg></button><div class="a">Label tetap keluar dari bantahan resmi tersimpan dan pola bahasa. Pemeriksaan yang terlewat dicatat di panel rincian.</div></div>
+      <div class="q glass"><button>Hoaks yang benar-benar baru?<svg><use href="#i-plus"/></svg></button><div class="a">Bisa masih Belum Terverifikasi. Tapi gaya bahasa provokatif memicu Perlu Diwaspadai, dan lonjakan penonton langsung naik ke Peringatan dini, jadi Penerangan bisa membantah duluan.</div></div>
+    </div>
+    <aside class="notes">Klik pertanyaan untuk membuka jawabannya.</aside>
+  </section>
+
+  <footer class="bottombar">
+    <button class="navbtn" id="prev" aria-label="Sebelumnya"><svg width="22" height="22"><use href="#i-left"/></svg></button>
+    <span class="counter" id="counter">1 / 1</span>
+    <button class="navbtn" id="next" aria-label="Berikutnya"><svg width="22" height="22"><use href="#i-right"/></svg></button>
+    <span id="stitle"></span>
+    <span class="hint"><span><kbd>O</kbd>ikhtisar</span><span><kbd>N</kbd>catatan</span><span><kbd>P</kbd>mode presenter</span><span><kbd>F</kbd>layar penuh</span><span><kbd>?</kbd>bantuan</span></span>
+    <div class="progress"><i id="bar"></i></div>
+  </footer>
+</div>
+
+<div id="notes"><div class="h">Catatan pembicara</div><div id="notesBody"></div></div>
+
+<div class="overlay" id="ov">
+  <div class="ov-head"><span>Ikhtisar slide</span><button class="ov-close" data-close>Tutup · Esc</button></div>
+  <div class="grid" id="grid"></div>
+  <div class="ov-head" style="margin-top:40px"><span>Pintasan</span></div>
+  <div class="keys">
+    <kbd>→ Spasi PgDn</kbd><span>Berikutnya (memunculkan poin satu per satu)</span>
+    <kbd>← PgUp</kbd><span>Sebelumnya</span>
+    <kbd>Home / End</kbd><span>Slide pertama / terakhir</span>
+    <kbd>1–6</kbd><span>Lompat ke bagian</span>
+    <kbd>O</kbd><span>Ikhtisar</span>
+    <kbd>N</kbd><span>Catatan pembicara</span>
+    <kbd>P</kbd><span>Buka mode presenter di jendela baru</span>
+    <kbd>F</kbd><span>Layar penuh</span>
+    <kbd>T</kbd><span>Reset timer (klik timer untuk mulai/jeda)</span>
+  </div>
+</div>
+
+<div class="modal" id="modal"><button class="x" data-close>Tutup · Esc</button><video id="backupVideo" controls preload="none" src="../../video/out/narasi-demo.mp4"></video></div>
+<div class="toast" id="toast"></div>
+
+<div id="pres">
+  <div class="ptop"><span class="t" id="pTimer">00:00</span><span style="color:var(--muted)">/ 10:00</span><span id="pPos" style="margin-left:auto;font-family:var(--mono);color:var(--muted)"></span></div>
+  <div style="display:flex;flex-direction:column;gap:14px;min-height:0">
+    <div><div class="lbl">Sekarang</div><div class="cur"><iframe id="fCur" title="Slide sekarang"></iframe></div></div>
+    <div class="pnotes" id="pNotes"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:14px;min-height:0">
+    <div><div class="lbl">Berikutnya</div><div class="nxt"><iframe id="fNext" title="Slide berikutnya"></iframe></div></div>
+    <div class="lbl" id="pNextTitle" style="font-size:16px;color:var(--text);letter-spacing:0;text-transform:none"></div>
+  </div>
+  <div class="pbot"><button id="pPrev">← Sebelumnya</button><button id="pNextBtn">Berikutnya →</button><button id="pReset">Reset timer</button><span style="margin-left:auto">Kontrol juga bisa dari keyboard di jendela ini.</span></div>
+</div>
+
+<script>
+(() => {
+  /* ---------- tautan demo: ubah di sini ---------- */
+  const LINKS = {
+    hoax: 'https://www.youtube.com/shorts/DwvC_FjYxoU',
+    official: 'https://www.youtube.com/results?search_query=TNI+AD+official+shorts', // ganti dengan Shorts resmi TNI AD yang sudah diuji
+    satire: 'https://www.youtube.com/results?search_query=satire+parodi+shorts',      // ganti dengan video satire yang sudah diuji
+    dash: 'http://localhost:5174'
+  };
+  const PARTS = ['Latar Belakang', 'Solusi', 'Keunikan', 'Teknologi', 'Outcome', 'Penutupan'];
+  const DEBUNKED = new Date(2025, 9, 1);
+  const TARGET = 600; // detik
+
+  const qs = new URLSearchParams(location.search);
+  const MODE = qs.has('presenter') ? 'presenter' : qs.has('mini') ? 'mini' : 'main';
+  document.body.classList.add(MODE);
+
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')].filter(s => !s.classList.contains('skip'));
+  let cur = 0, step = 0;
+
+  /* ---------- scale ---------- */
+  function fit() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  }
+  addEventListener('resize', fit); fit();
+
+  /* ---------- live day counter ---------- */
+  const days = Math.floor((Date.now() - DEBUNKED) / 864e5);
+  document.querySelectorAll('[data-days]').forEach(el => el.textContent = days);
+
+  /* ---------- part nav ---------- */
+  const partsEl = document.getElementById('parts');
+  PARTS.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="n">${i + 1}</span>${p}`;
+    b.onclick = () => jumpPart(i);
+    partsEl.appendChild(b);
+  });
+  function jumpPart(i) { const k = slides.findIndex(s => +s.dataset.part === i); if (k >= 0) go(k, 0); }
+
+  /* ---------- demo links ---------- */
+  for (const [k, v] of Object.entries(LINKS)) { const a = document.getElementById('lnk-' + k); if (a) a.href = v; }
+
+  /* ---------- count-up ---------- */
+  function countUp(el) {
+    if (el.dataset.done) return; el.dataset.done = 1;
+    const end = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), sep = el.hasAttribute('data-sep');
+    const fmt = v => { let s = v.toFixed(dec).replace('.', ','); if (sep) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return s; };
+    if (MODE === 'mini' || matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = fmt(end); return; }
+    const t0 = performance.now(), dur = 1400;
+    const tick = t => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 4); el.textContent = fmt(end * e); if (p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }
+  function resetCounts(sl) {
+    sl.querySelectorAll('[data-count]').forEach(el => { delete el.dataset.done; el.textContent = '0'; });
+    sl.querySelectorAll('[data-w]').forEach(el => el.style.width = '0');
+  }
+  function activateVisible(sl) {
+    sl.querySelectorAll('[data-count]').forEach(el => { const f = el.closest('.f'); if (!f || f.classList.contains('in')) countUp(el); });
+    sl.querySelectorAll('[data-w]').forEach(el => { const f = el.closest('.f'); if (!f || f.classList.contains('in')) el.style.width = el.dataset.w + '%'; });
+  }
+
+  /* ---------- hook video ---------- */
+  const hv = document.getElementById('hookVideo'), hp = document.getElementById('hookPhone');
+  const LOOP_A = 4.4, LOOP_B = 23.4;
+  hv.addEventListener('error', () => hp.classList.add('nofile'));
+  // Lompat ke momen video mulai; kalau server tidak mendukung seek, putar biasa dari awal.
+  const canSeek = () => hv.seekable.length && hv.seekable.end(0) > LOOP_B;
+  hv.addEventListener('loadedmetadata', () => { if (canSeek()) hv.currentTime = LOOP_A; else hv.loop = true; });
+  hv.addEventListener('timeupdate', () => { if (canSeek() && (hv.currentTime > LOOP_B || hv.currentTime < LOOP_A - 0.3)) hv.currentTime = LOOP_A; });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && slides[cur]?.contains(hv) && MODE === 'main') hv.play().catch(() => {}); });
+
+  /* ---------- navigation ---------- */
+  const frags = sl => [...sl.querySelectorAll('.f')];
+  function render(prevIdx) {
+    slides.forEach((s, i) => s.classList.toggle('on', i === cur));
+    const sl = slides[cur], fs = frags(sl);
+    fs.forEach((f, i) => f.classList.toggle('in', MODE === 'mini' || i < step));
+    if (prevIdx !== undefined && prevIdx !== cur) resetCounts(slides[prevIdx]);
+    activateVisible(sl);
+    [...partsEl.children].forEach((b, i) => b.classList.toggle('on', i === +sl.dataset.part));
+    document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
+    document.getElementById('stitle').textContent = sl.dataset.title;
+    document.getElementById('bar').style.width = ((cur + (fs.length ? step / fs.length : 1)) / slides.length * 100) + '%';
+    document.getElementById('notesBody').innerHTML = notesOf(cur);
+    // hook video only plays while its slide is on
+    if (sl.contains(hv)) { if (MODE !== 'mini') hv.play().catch(() => {}); } else hv.pause();
+    if (MODE === 'main') {
+      history.replaceState(null, '', '#' + (cur + 1));
+      try { localStorage.setItem('narasi-deck-pos', cur); } catch (e) {}
+      send({ type: 'state', cur, step });
+    }
+  }
+  function go(i, s = 0) {
+    const prev = cur;
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    step = s === 'all' ? frags(slides[cur]).length : s;
+    startTimerIfIdle();
+    render(prev);
+  }
+  function next() {
+    const n = frags(slides[cur]).length;
+    if (step < n) { step++; render(); } else if (cur < slides.length - 1) go(cur + 1, 0);
+  }
+  function prev() {
+    if (step > 0) { step--; render(); } else if (cur > 0) go(cur - 1, 'all');
+  }
+  const notesOf = i => (slides[i]?.querySelector('.notes')?.innerHTML || '').trim();
+
+  /* ---------- timer ---------- */
+  let tStart = null, tAcc = 0, tRun = false;
+  const timerEl = document.getElementById('timer');
+  const elapsed = () => tAcc + (tRun ? (Date.now() - tStart) : 0);
+  const fmtT = ms => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+  function startTimerIfIdle() { if (MODE === 'main' && !tRun && tAcc === 0 && cur > 0) toggleTimer(); }
+  function toggleTimer() { if (tRun) { tAcc = elapsed(); tRun = false; } else { tStart = Date.now(); tRun = true; } }
+  function resetTimer() { tAcc = 0; tRun = false; }
+  timerEl.onclick = toggleTimer;
+  setInterval(() => {
+    const ms = elapsed(), s = ms / 1000;
+    timerEl.textContent = fmtT(ms);
+    timerEl.className = 'timer' + (tRun ? ' run' : '') + (s > TARGET ? ' over' : s > TARGET - 60 ? ' warn' : '');
+    if (MODE === 'main') send({ type: 'time', ms, run: tRun });
+  }, 500);
+
+  /* ---------- interactions ---------- */
+  document.getElementById('labels').addEventListener('click', e => {
+    const b = e.target.closest('.lab'); if (!b) return;
+    const was = b.classList.contains('open');
+    document.querySelectorAll('.lab').forEach(x => x.classList.remove('open'));
+    if (!was) b.classList.add('open');
+  });
+  const steps = [...document.querySelectorAll('.step')];
+  const stepCount = document.getElementById('stepCount');
+  steps.forEach(s => s.addEventListener('click', () => { s.classList.toggle('done'); stepCount.textContent = steps.filter(x => x.classList.contains('done')).length + '/' + steps.length; }));
+  document.getElementById('faq').addEventListener('click', e => { const b = e.target.closest('button'); if (b) b.parentElement.classList.toggle('open'); });
+
+  const DETAIL = {
+    video: ['Sumber', 'Video pendek', ['Instagram Reels, TikTok, YouTube Shorts, Facebook Reels', 'Beranda Instagram &amp; Facebook: teks, foto, video', 'Semua topik, termasuk video berbahasa asing'], []],
+    ext: ['Klien', 'Ekstensi browser', ['Membaca caption, frame layar (480 px), potongan audio', 'Frame identik tidak dikirim ulang', 'Badge di atas caption + panel bukti + tombol lapor', 'Adapter per platform: ganti tampilan, ganti satu file'], ['WXT', 'React', 'TypeScript', 'Manifest V3']],
+    api: ['Server', 'Analisis multimodal', ['Ekstraksi klaim: heuristik + LLM', 'Teks layar: OCR berbasis AI, sekali per video', 'Suara: Whisper large-v3-turbo', 'Singleflight: permintaan serentak digabung jadi satu', 'Pagar kuota per menit &amp; per hari'], ['FastAPI', 'Python', 'Groq qwen3.8-27b', 'Gemini (cadangan)']],
+    evidence: ['Bukti', 'Enam sumber sekaligus', ['Korpus bantahan resmi Komdigi &amp; PPID TNI AD', 'Feed TurnBackHoax/Mafindo, Snopes, PolitiFact, Full Fact, Lead Stories', 'Google Fact Check &amp; Tavily', 'Google News (media terverifikasi)', 'Pencocokan embedding + aturan "beda peristiwa ≠ cocok"'], ['Gemini embedding', 'RSS', 'Fact Check API']],
+    verdict: ['Vonis', 'Bukti dulu, baru AI', ['Label hoaks hanya dari halaman cek fakta / bantahan resmi', 'Berita umum hanya boleh mendukung', 'Pola bahasa → Perlu Diwaspadai', 'Penilaian AI = peringatan awal berkeyakinan rendah', 'Kesimpulan selalu bersitasi'], []],
+    sse: ['Realtime', 'Label makin akurat', ['Server-Sent Events mendorong hasil ke layar', 'Label awal ±0,1 dtk dari caption + korpus', 'Naik jadi final setelah layar &amp; suara dicek'], ['SSE']],
+    store: ['Penyimpanan', 'Hasil disimpan bersama', ['Video yang sama tidak dicek ulang', 'Cache LLM per isi masukan (30 hari)', 'Laporan &amp; sinyal penonton di SQLite', 'Redis persisten (AOF): kuota tidak terbuang saat restart'], ['Redis', 'SQLite']],
+    dash: ['Petugas', 'Dashboard Mode Satuan', ['Realtime: alur video sampai keputusan akhir', 'Peringatan dini: prioritas naik saat penonton melonjak', 'Rekomendasi aksi + simulasi dengan/tanpa aksi', 'Antrean laporan: baru → ditinjau → ditindaklanjuti → ditutup'], ['React', 'Vite', 'Tailwind', 'shadcn/ui', 'Recharts']],
+    tg: ['Notifikasi', 'Telegram petugas', ['Level tinggi &amp; setiap laporan dikirim sekali', 'Lewat webhook, bisa diganti kanal lain'], ['Webhook']]
+  };
+  const detailEl = document.getElementById('detail');
+  function showDetail(k) {
+    const [kk, h, items, tags] = DETAIL[k];
+    detailEl.innerHTML = `<div class="k">${kk}</div><h4>${h}</h4><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul><div style="margin-top:18px">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+    document.querySelectorAll('#flow .node').forEach(n => n.classList.toggle('sel', n.dataset.k === k));
+  }
+  document.querySelectorAll('#flow .node').forEach(n => n.addEventListener('click', () => showDetail(n.dataset.k)));
+  showDetail('api');
+
+  /* ---------- overlays ---------- */
+  const ov = document.getElementById('ov'), grid = document.getElementById('grid'), modal = document.getElementById('modal'), bv = document.getElementById('backupVideo');
+  function openOverview() {
+    grid.innerHTML = slides.map((s, i) => `<button class="thumb${i === cur ? ' cur' : ''}" data-i="${i}"><span class="no">${i + 1}</span><div class="p">${PARTS[+s.dataset.part]}</div><div class="t">${s.dataset.title}</div></button>`).join('');
+    ov.classList.add('on');
+  }
+  grid.addEventListener('click', e => { const t = e.target.closest('.thumb'); if (t) { go(+t.dataset.i, 0); ov.classList.remove('on'); } });
+  document.getElementById('openBackup').onclick = () => { modal.classList.add('on'); bv.play().catch(() => {}); };
+  bv.addEventListener('error', () => toast('Rekaman cadangan tidak ditemukan di video/out/narasi-demo.mp4'));
+  document.querySelectorAll('[data-close]').forEach(b => b.onclick = closeAll);
+  function closeAll() { ov.classList.remove('on'); modal.classList.remove('on'); bv.pause(); }
+  const toastEl = document.getElementById('toast');
+  function toast(m) { toastEl.textContent = m; toastEl.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => toastEl.classList.remove('on'), 2600); }
+
+  /* ---------- presenter link (postMessage works on file:// too) ---------- */
+  let presWin = null;
+  function send(msg) { try { if (presWin && !presWin.closed) presWin.postMessage({ narasi: 1, ...msg }, '*'); } catch (e) {} }
+  function openPresenter() {
+    presWin = window.open(location.pathname + '?presenter', 'narasi-presenter', 'width=1280,height=800');
+    if (!presWin) toast('Izinkan pop-up untuk membuka mode presenter');
+  }
+  addEventListener('message', e => {
+    const d = e.data; if (!d || !d.narasi) return;
+    if (MODE === 'main' && e.source === presWin) {
+      if (d.type === 'hello') { send({ type: 'state', cur, step }); }
+      if (d.type === 'cmd') { ({ next, prev, reset: resetTimer })[d.cmd]?.(); if (d.cmd === 'reset') toast('Timer direset'); }
+    }
+    if (MODE === 'presenter' && e.source === window.opener) {
+      if (d.type === 'state') presRender(d.cur);
+      if (d.type === 'time') { const el = document.getElementById('pTimer'); el.textContent = fmtT(d.ms); el.style.color = d.ms / 1000 > TARGET ? 'var(--hoax)' : d.ms / 1000 > TARGET - 60 ? 'var(--orange)' : ''; }
+    }
+  });
+
+  /* ---------- keyboard / touch ---------- */
+  function onKey(e) {
+    if (e.target.closest?.('input,textarea')) return;
+    const k = e.key;
+    if (k === 'Escape') { closeAll(); document.getElementById('notes').classList.remove('on'); return; }
+    if (ov.classList.contains('on') || modal.classList.contains('on')) return;
+    if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(k)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
+    else if (k === 'Home') go(0); else if (k === 'End') go(slides.length - 1);
+    else if (/^[1-6]$/.test(k)) jumpPart(+k - 1);
+    else if (k === 'o' || k === 'O') openOverview();
+    else if (k === 'n' || k === 'N') document.getElementById('notes').classList.toggle('on');
+    else if (k === 'p' || k === 'P') openPresenter();
+    else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); }
+    else if (k === 't' || k === 'T') { resetTimer(); toast('Timer direset'); }
+    else if (k === '?') openOverview();
+  }
+
+  /* ---------- background network (mirip logo) ---------- */
+  function bg() {
+    const c = document.getElementById('bgfx'), x = c.getContext('2d');
+    let W, H, pts;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function size() { W = c.width = innerWidth * devicePixelRatio; H = c.height = innerHeight * devicePixelRatio; pts = Array.from({ length: 70 }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .25 * devicePixelRatio, vy: (Math.random() - .5) * .25 * devicePixelRatio })); }
+    size(); addEventListener('resize', size);
+    function frame() {
+      const g = x.createRadialGradient(W * .5, H * .35, 0, W * .5, H * .35, Math.max(W, H) * .8);
+      g.addColorStop(0, '#0b1d33'); g.addColorStop(1, '#050b14');
+      x.fillStyle = g; x.fillRect(0, 0, W, H);
+      const L = 160 * devicePixelRatio;
+      for (const p of pts) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < L) { x.strokeStyle = `rgba(56,198,244,${(1 - d / L) * .16})`; x.lineWidth = devicePixelRatio; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }
+      }
+      for (const p of pts) { x.fillStyle = 'rgba(127,224,255,.5)'; x.beginPath(); x.arc(p.x, p.y, 1.8 * devicePixelRatio, 0, 7); x.fill(); }
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
+  /* ---------- presenter window ---------- */
+  function presRender(i) {
+    const n = slides.length, base = location.pathname + '?mini#';
+    document.getElementById('fCur').src = base + (i + 1);
+    document.getElementById('fNext').src = base + Math.min(n, i + 2);
+    document.getElementById('pNotes').innerHTML = notesOf(i) || '<span style="color:var(--muted)">Tidak ada catatan.</span>';
+    document.getElementById('pNextTitle').textContent = i + 1 < n ? 'Berikutnya: ' + slides[i + 1].dataset.title : 'Slide terakhir';
+    document.getElementById('pPos').textContent = `${i + 1} / ${n} · ${PARTS[+slides[i].dataset.part]} · ${slides[i].dataset.title}`;
+  }
+  function presSend(cmd) { if (window.opener) window.opener.postMessage({ narasi: 1, type: 'cmd', cmd }, '*'); }
+
+  /* ---------- boot ---------- */
+  const fromHash = () => { const h = parseInt(location.hash.slice(1), 10); return isNaN(h) ? null : h - 1; };
+  if (MODE === 'presenter') {
+    document.title = 'NARASI · Presenter';
+    if (!window.opener) document.getElementById('pNotes').textContent = 'Buka mode presenter dengan menekan P di jendela presentasi.';
+    document.getElementById('pPrev').onclick = () => presSend('prev');
+    document.getElementById('pNextBtn').onclick = () => presSend('next');
+    document.getElementById('pReset').onclick = () => presSend('reset');
+    addEventListener('keydown', e => {
+      if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); presSend('next'); }
+      if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); presSend('prev'); }
+    });
+    presRender(0);
+    if (window.opener) window.opener.postMessage({ narasi: 1, type: 'hello' }, '*');
+    return;
+  }
+  if (MODE === 'mini') {
+    const sync = () => go(fromHash() ?? 0, 'all');
+    addEventListener('hashchange', sync); sync();
+    return;
+  }
+  bg();
+  addEventListener('keydown', onKey);
+  document.getElementById('next').onclick = next;
+  document.getElementById('prev').onclick = prev;
+  let tx = null;
+  addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) dx < 0 ? next() : prev(); tx = null; });
+  addEventListener('hashchange', () => { const h = fromHash(); if (h !== null && h !== cur) go(h, 0); });
+  go(fromHash() ?? 0, 0);
+})();
+</script>
+</body>
+</html>

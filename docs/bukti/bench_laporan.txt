@@ -1,0 +1,4 @@
+record_view: 200,000 pemeriksaan dalam 13.18 dtk = 15,170/dtk
+summary (tanpa cache): 98 ms, 1346 video -> 494 narasi
+summary x100 (dengan cache alerts): 39.0 ms/panggilan
+alert_for per video: 1.11 ms

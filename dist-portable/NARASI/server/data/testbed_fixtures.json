@@ -1,0 +1,42 @@
+[
+  {
+    "id": "tb-rekrutmen",
+    "claim": "Pendaftaran Bintara TNI AD 2026 dibuka gratis melalui situs resmi rekrutmen TNI AD",
+    "rating": "Benar",
+    "publisher": "NARASI Testbed (data uji)",
+    "title": "[DATA UJI] Pendaftaran Bintara TNI AD tidak dipungut biaya",
+    "url": "http://localhost:8765/sumber.html#tb-rekrutmen",
+    "date": "2026-10-01",
+    "credibility": 1.0
+  },
+  {
+    "id": "tb-natuna",
+    "claim": "Video latihan perang TNI di Natuna terjadi minggu lalu dan menandakan konflik sudah dimulai",
+    "rating": "Menyesatkan",
+    "publisher": "NARASI Testbed (data uji)",
+    "title": "[DATA UJI] Video latihan di Natuna adalah rekaman lama, bukan tanda konflik",
+    "url": "http://localhost:8765/sumber.html#tb-natuna",
+    "date": "2026-10-20",
+    "credibility": 1.0
+  },
+  {
+    "id": "tb-sirsak",
+    "claim": "Air rebusan daun sirsak menyembuhkan kanker dalam 3 hari",
+    "rating": "Salah",
+    "publisher": "NARASI Testbed (data uji)",
+    "title": "[DATA UJI] Daun sirsak tidak terbukti menyembuhkan kanker",
+    "url": "http://localhost:8765/sumber.html#tb-sirsak",
+    "date": "2026-09-12",
+    "credibility": 1.0
+  },
+  {
+    "id": "tb-jam-malam",
+    "claim": "Pangdam perintahkan jam malam di seluruh Jawa Barat mulai 5 November 2026",
+    "rating": "Hoaks",
+    "publisher": "NARASI Testbed (data uji)",
+    "title": "[DATA UJI] Tidak ada perintah jam malam dari Pangdam di Jawa Barat",
+    "url": "http://localhost:8765/sumber.html#tb-jam-malam",
+    "date": "2026-10-27",
+    "credibility": 1.0
+  }
+]

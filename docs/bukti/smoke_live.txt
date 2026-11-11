@@ -1,0 +1,8 @@
+Server http://localhost:8000: mode=live penyedia={'gemini': True, 'groq': True, 'factcheck': True, 'tavily': True, 'llm': ['groq', 'gemini'], 'cache': 'memory'}
+20 prajurit serentak, video uji-68a56f94, selesai dalam 4.64 dtk
+  hasil final diterima   20/20 (galat 0) label=['caution']
+  label pertama          median 0.487 dtk, maks 0.600 dtk
+  hasil final            median 4.481 dtk, maks 4.599 dtk
+  permintaan terkirim    {'factcheck': 2, 'tavily': 1, 'embed': 1, 'evidence': 1, 'llm.conclusion': 1}
+  permintaan dihemat     {'evidence:shared': 19, 'llm.conclusion:shared': 19}
+LULUS

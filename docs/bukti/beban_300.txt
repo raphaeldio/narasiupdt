@@ -1,0 +1,53 @@
+Server NARASI (proses terpisah) di http://127.0.0.1:61268 | 300 prajurit, 25 video, 30% multimodal, datang dalam 3.0 dtk
+
+== Gelombang 1: video baru (cache kosong) ==
+  gelombang            Gelombang 1: video baru (cache kosong)
+  pengguna             300
+  video_unik           25
+  multimodal           111
+  sesi_baru            102
+  dari_cache           198
+  galat                0
+  durasi_dtk           3.01
+  label_pertama_p50    0.035
+  label_pertama_p95    0.2
+  final_p50            0.095
+  final_p95            1.876
+  final_maks           2.149
+  cache_p50            0.023
+  cache_p95            0.141
+  health_p50           0.011
+  health_p95           0.06
+  sesi_label_pertama_p50 0.073
+  sesi_label_pertama_p95 0.363
+  waktu proses server      {'health': {'n': 41, 'p50_ms': 0.4, 'p95_ms': 1.3}, '/v1/analyze': {'n': 300, 'p50_ms': 2.6, 'p95_ms': 13.1}, 'sse_label_pertama': {'n': 102, 'p50_ms': 1.3, 'p95_ms': 3.0}, 'frames': {'n': 35, 'p50_ms': 4.2, 'p95_ms': 14.7}, 'audio': {'n': 35, 'p50_ms': 4.0, 'p95_ms': 11.0}, 'complete': {'n': 35, 'p50_ms': 0.9, 'p95_ms': 1.9}, 'sse_final': {'n': 102, 'p50_ms': 773.2, 'p95_ms': 1980.3}}
+
+== Gelombang 2: video yang sama (cache terisi) ==
+  gelombang            Gelombang 2: video yang sama (cache terisi)
+  pengguna             300
+  video_unik           25
+  multimodal           111
+  sesi_baru            0
+  dari_cache           300
+  galat                0
+  durasi_dtk           3.01
+  label_pertama_p50    0.016
+  label_pertama_p95    0.034
+  final_p50            0.016
+  final_p95            0.034
+  final_maks           0.044
+  cache_p50            0.016
+  cache_p95            0.034
+  health_p50           0.009
+  health_p95           0.016
+  sesi_label_pertama_p50 nan
+  sesi_label_pertama_p95 nan
+  waktu proses server      {'health': {'n': 46, 'p50_ms': 0.3, 'p95_ms': 0.6}, '/v1/analyze': {'n': 300, 'p50_ms': 1.3, 'p95_ms': 4.0}}
+
+== Pemakaian kuota (LLM + ASR) ==
+  pengguna total           600
+  tanpa cache sama sekali  ~1266 permintaan
+  kode lama (cache hasil)  ~207 permintaan
+  terkirim sekarang        54 permintaan {'claims': 26, 'ocr': 14} + ASR 14 (gelombang 2 menambah 0)
+  hemat vs tanpa cache     95.7%
+  hemat vs kode lama       73.9%

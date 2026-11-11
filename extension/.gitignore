@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+# Hasil build Chrome ikut di-commit supaya ekstensi bisa langsung di-"Load unpacked".
+.output/*
+!.output/
+!.output/chrome-mv3/
+stats.html
+stats-*.json
+.wxt
+web-ext.config.ts
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.e2e-profile
+test-results
+playwright-report
+.e2e-profile-yt
+.e2e-profile-feed

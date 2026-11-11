@@ -1,0 +1,14 @@
+# Pengembangan/uji backend saja. Untuk server satuan gunakan deploy/docker-compose.yml.
+services:
+  api:
+    build: .
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8000:8080"
+    depends_on:
+      - redis
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]

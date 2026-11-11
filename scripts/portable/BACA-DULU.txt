@@ -1,0 +1,43 @@
+NARASI: Cek Hoaks Video Pendek (versi portabel untuk Windows)
+=============================================================
+
+Nggak perlu instal apa-apa. Semua sudah ada di folder ini.
+Yang dibutuhkan cuma Windows 10/11, Chrome atau Edge, dan koneksi internet.
+
+
+1. Nyalakan NARASI
+------------------
+Klik dua kali  NARASI.bat
+Jendela hitam akan terbuka dan dashboard muncul sendiri di browser
+(http://localhost:8000). Biarkan jendela hitam tetap terbuka.
+
+Kalau Windows menampilkan "Windows protected your PC", klik
+"More info" lalu "Run anyway". File ini aman, cuma belum ditandatangani.
+
+
+2. Pasang ekstensi (cukup sekali)
+---------------------------------
+1. Buka Chrome, ketik  chrome://extensions  di kolom alamat
+   (di Edge:  edge://extensions ).
+2. Nyalakan "Developer mode" di pojok kanan atas.
+3. Klik "Load unpacked", lalu pilih folder  ekstensi-NARASI  di folder ini.
+4. Klik ikon puzzle di toolbar, lalu pin NARASI biar gampang diakses.
+
+
+3. Coba
+-------
+Buka video pendek di Instagram Reels, TikTok, YouTube Shorts, atau Facebook Reels.
+Saat video diputar, label NARASI muncul di atas caption. Klik labelnya untuk melihat
+klaim yang ditemukan, sumber bukti, dan kesimpulannya.
+
+Video yang kamu tonton langsung muncul di dashboard (tab Realtime). Tombol
+"Laporkan ke TNI AD" di panel ekstensi mengirim laporan ke tab Laporan.
+
+
+Kalau ada kendala
+-----------------
+- Jendela hitam langsung tertutup / error "address already in use":
+  ada aplikasi lain yang memakai port 8000. Tutup aplikasi itu lalu coba lagi.
+- Label tidak muncul: pastikan jendela NARASI.bat masih terbuka,
+  lalu refresh halaman videonya.
+- Ekstrak dulu zip-nya. Jangan jalankan NARASI.bat langsung dari dalam zip.

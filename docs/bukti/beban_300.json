@@ -1,0 +1,100 @@
+{
+  "params": {
+    "users": 300,
+    "videos": 25,
+    "spread": 3.0,
+    "multimodal": 0.3,
+    "json": "../docs/bukti/beban_300.json",
+    "serve": 0
+  },
+  "waves": [
+    {
+      "gelombang": "Gelombang 1: video baru (cache kosong)",
+      "pengguna": 300,
+      "video_unik": 25,
+      "multimodal": 111,
+      "sesi_baru": 102,
+      "dari_cache": 198,
+      "galat": 0,
+      "durasi_dtk": 3.01,
+      "label_pertama_p50": 0.035,
+      "label_pertama_p95": 0.2,
+      "final_p50": 0.095,
+      "final_p95": 1.876,
+      "final_maks": 2.149,
+      "cache_p50": 0.023,
+      "cache_p95": 0.141,
+      "health_p50": 0.011,
+      "health_p95": 0.06,
+      "sesi_label_pertama_p50": 0.073,
+      "sesi_label_pertama_p95": 0.363
+    },
+    {
+      "gelombang": "Gelombang 2: video yang sama (cache terisi)",
+      "pengguna": 300,
+      "video_unik": 25,
+      "multimodal": 111,
+      "sesi_baru": 0,
+      "dari_cache": 300,
+      "galat": 0,
+      "durasi_dtk": 3.01,
+      "label_pertama_p50": 0.016,
+      "label_pertama_p95": 0.034,
+      "final_p50": 0.016,
+      "final_p95": 0.034,
+      "final_maks": 0.044,
+      "cache_p50": 0.016,
+      "cache_p95": 0.034,
+      "health_p50": 0.009,
+      "health_p95": 0.016,
+      "sesi_label_pertama_p50": NaN,
+      "sesi_label_pertama_p95": NaN
+    }
+  ],
+  "requests": {
+    "naive": 1266,
+    "old_code": 207,
+    "actual": 54
+  },
+  "provider_calls": {
+    "llm": {
+      "claims": 26,
+      "ocr": 14
+    },
+    "asr": 14,
+    "usage": {
+      "since": 1793715085.9625165,
+      "calls": {
+        "evidence": 52,
+        "asr": 14,
+        "llm.claims": 26,
+        "llm.ocr": 14
+      },
+      "saved": {
+        "evidence:cache": 146,
+        "asr:shared": 13,
+        "asr:cache": 8,
+        "llm.claims:shared": 102,
+        "evidence:shared": 76,
+        "llm.ocr:shared": 21,
+        "llm.claims:cache": 9
+      },
+      "skipped_by_budget": {},
+      "llm_calls": 40,
+      "llm_saved": 132,
+      "llm_saving_rate": 0.767
+    },
+    "server": {
+      "health": {
+        "n": 46,
+        "p50_ms": 0.3,
+        "p95_ms": 0.6
+      },
+      "/v1/analyze": {
+        "n": 300,
+        "p50_ms": 1.3,
+        "p95_ms": 4.0
+      }
+    }
+  }
+}
