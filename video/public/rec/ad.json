@@ -1,0 +1,203 @@
+{
+  "feed": {
+    "file": "rec/feed.mp4",
+    "viewport": {
+      "w": 1280,
+      "h": 900
+    },
+    "clips": [
+      {
+        "url": "https://www.youtube.com/shorts/peADZJ-9MtU",
+        "start": 24.946,
+        "player": {
+          "x": 402,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 25.117,
+        "box": {
+          "x": 418,
+          "y": 763,
+          "w": 110,
+          "h": 30
+        },
+        "label": 25.117,
+        "first": "Tanpa Klaim",
+        "text": "Tanpa Klaim",
+        "final": 26.43,
+        "end": 27.154
+      },
+      {
+        "url": "https://www.youtube.com/shorts/OLJG7KKWbjI",
+        "start": 28.903,
+        "player": {
+          "x": 402,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 29.004,
+        "box": {
+          "x": 418,
+          "y": 763,
+          "w": 110,
+          "h": 30
+        },
+        "label": 35.517,
+        "first": "Tanpa Klaim",
+        "text": "Tanpa Klaim",
+        "final": 37.05,
+        "end": 37.775
+      },
+      {
+        "url": "https://www.youtube.com/shorts/YXl9WXQTbvE",
+        "start": 39.155,
+        "player": {
+          "x": 402,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 39.465,
+        "box": {
+          "x": 418,
+          "y": 769,
+          "w": 130,
+          "h": 30
+        },
+        "label": 45.169,
+        "first": "Tanpa Klaim",
+        "text": "Tanpa Klaim",
+        "final": 46.5,
+        "end": 47.211
+      },
+      {
+        "url": "https://www.youtube.com/shorts/lVRSiGm4YO8",
+        "start": 48.655,
+        "player": {
+          "x": 402,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 49.522,
+        "box": {
+          "x": 418,
+          "y": 763,
+          "w": 170,
+          "h": 30
+        },
+        "label": 56.249,
+        "first": "Belum Terverifikasi",
+        "text": "Belum Terverifikasi",
+        "final": 57.571,
+        "end": 58.277
+      },
+      {
+        "url": "https://www.youtube.com/shorts/Sq35aHXar_k",
+        "start": 59.728,
+        "player": {
+          "x": 402,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 60.219,
+        "box": {
+          "x": 418,
+          "y": 795,
+          "w": 130,
+          "h": 30
+        },
+        "label": 73.579,
+        "first": "Tanpa Klaim",
+        "text": "Tanpa Klaim",
+        "final": 75.092,
+        "end": 75.817
+      },
+      {
+        "url": "https://www.youtube.com/shorts/DwvC_FjYxoU",
+        "start": 89.355,
+        "player": {
+          "x": 534,
+          "y": 64,
+          "w": 452,
+          "h": 804
+        },
+        "badge": 89.417,
+        "box": {
+          "x": 546,
+          "y": 698,
+          "w": 257,
+          "h": 30
+        },
+        "label": 89.654,
+        "first": "100%\nIndikasi Hoaks\nMencatut TNI",
+        "text": "100%\nIndikasi Hoaks\nMencatut TNI",
+        "final": 91.338
+      }
+    ],
+    "t": {
+      "hoaxNav": 75.817,
+      "panelOpen": 97.299,
+      "panelEnd": 102.156,
+      "reportOpen": 105.358,
+      "reportSent": 113.337,
+      "feedEnd": 115.843
+    },
+    "panel": {
+      "x": 418,
+      "y": 325,
+      "w": 342,
+      "h": 462
+    }
+  },
+  "dash": {
+    "file": "rec/dashlive.mp4",
+    "viewport": {
+      "w": 1600,
+      "h": 1400
+    },
+    "layout": {
+      "log": {
+        "x": 120,
+        "y": 915,
+        "w": 846,
+        "h": 518
+      },
+      "kpi": {
+        "x": 120,
+        "y": 249,
+        "w": 1360,
+        "h": 94
+      },
+      "tabs": {
+        "x": 120,
+        "y": 193,
+        "w": 612,
+        "h": 36
+      }
+    },
+    "tabs": [
+      {
+        "name": "Rangkuman",
+        "t": 320.395
+      },
+      {
+        "name": "Rekomendasi",
+        "t": 326.659
+      },
+      {
+        "name": "Laporan",
+        "t": 339.058
+      },
+      {
+        "name": "Realtime",
+        "t": 344.915
+      }
+    ],
+    "end": 348.659
+  },
+  "offset": 8.54
+}

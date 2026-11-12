@@ -1,0 +1,30 @@
+{
+  "name": "narasi-video",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NARASI: video demo hackathon 60 detik (Remotion)",
+  "scripts": {
+    "studio": "node scripts/remotion.mjs studio src/index.ts",
+    "still": "node scripts/remotion.mjs still src/index.ts NarasiDemo",
+    "render": "node scripts/remotion.mjs render src/index.ts NarasiDemo out/narasi-demo.mp4 --concurrency=1 --offthreadvideo-cache-size-in-bytes=80000000 --offthreadvideo-threads=1",
+    "render:ad": "node scripts/remotion.mjs render src/index.ts NarasiAd out/narasi-iklan.mp4 --concurrency=2 --crf=18",
+    "compile": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "@types/estree": "1.0.9"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.539",
+    "@remotion/google-fonts": "^4.0.539",
+    "@remotion/lottie": "4.0.539",
+    "@remotion/studio": "^4.0.539",
+    "lottie-web": "5.13.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.539"
+  }
+}

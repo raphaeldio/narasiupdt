@@ -1,0 +1,24 @@
+{
+  "file": "rec/dash.mp4",
+  "viewport": {
+    "w": 1500,
+    "h": 776
+  },
+  "situation": {
+    "x": 146,
+    "y": 113,
+    "w": 1208,
+    "h": 75
+  },
+  "narrative": {
+    "x": 163,
+    "y": 403,
+    "w": 661,
+    "h": 122
+  },
+  "topClaim": "18000 pasukan TNI dikerahkan ke Aceh",
+  "t": {
+    "start": 0.926,
+    "end": 7.475
+  }
+}

@@ -1,12 +1,94 @@
-# File & direktori yang ditentukan
+# ===========================
+# NARASI — Root .gitignore
+# ===========================
+
+# ---- OS & Editor ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ---- AI / Agent tooling ----
+.claude/
+.gemini/
+
+# ---- Python (backend) ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---- Node.js (dashboard, extension, video, docs) ----
 node_modules/
 .npm-cache/
-out/
-.tmp/
-.vo-raw/
-video/
+*.tsbuildinfo
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---- Environment / secrets ----
+# Semua .env diabaikan, kecuali file contoh tanpa kunci asli.
+.env
+.env.*
+!.env.example
+!.env.demo
+!.env.production.example
+*.pem
+*.key
+
+# ---- Backend data (runtime databases & local state) ----
+backend/var/
+backend/testbed/
+*.sqlite3
+*.db
+
+# ---- Dashboard build output ----
+dashboard/dist/
+
+# ---- Extension (WXT) ----
+# Build chrome-mv3 sengaja di-commit supaya bisa langsung "Load unpacked".
+extension/.wxt/
+extension/.output/*
+!extension/.output/chrome-mv3/
+extension/stats.html
+extension/stats-*.json
+extension/web-ext.config.ts
+extension/.e2e-profile*/
+extension/test-results/
+extension/playwright-report/
+
+# ---- Video (Remotion) ----
+video/out/
+video/.tmp/
+video/.vo-raw/
+# Rekaman layar mentah terlalu besar untuk GitHub (dashlive.mp4 ~214 MB > batas 100 MB).
+# Kalau perlu di-versioning, pakai Git LFS.
+video/public/rec/*.mp4
+
+# ---- Portable distribution (build artifacts, dibuat oleh scripts/paket-portable.ps1) ----
+dist-portable/
+
+# ---- Logs ----
+logs/
+*.log
+
+# ---- File pribadi / catatan lokal ----
 pilih
 rubrik.png
-.claude/
-docs/
-.gitignore
